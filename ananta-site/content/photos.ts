@@ -35,14 +35,14 @@ export const PHOTOS: Record<string, Photo> = {
   },
   'pyverse-hands': {
     slug: 'pyverse-hands',
-    caption: 'PyVerse · hands on keyboards',
-    alt: 'Students working at laptops during the PyVerse workshop.',
+    caption: 'PyVerse bootcamp · hands on keyboards',
+    alt: "Students working at laptops during DevGrowth's PyVerse bootcamp.",
     club: 'devgrowth',
   },
   'pyverse-group': {
     slug: 'pyverse-group',
-    caption: 'PyVerse',
-    alt: 'Group photograph of the PyVerse participants.',
+    caption: 'PyVerse bootcamp',
+    alt: "Group photograph of the participants in DevGrowth's PyVerse bootcamp.",
     club: 'devgrowth',
   },
   'battle-code': {

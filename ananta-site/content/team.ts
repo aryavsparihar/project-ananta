@@ -44,7 +44,7 @@ export const GROUPS: TeamGroup[] = [
   {
     id: 'faculty',
     title: 'Faculty',
-    blurb: 'SMVDU.',
+    blurb: 'SoCSE, SoECE and SoME, SMVDU.',
     club: 'smvdu',
     featured: true,
   },

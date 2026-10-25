@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { PageHead } from '@/components/PageHead';
 import { Countdown } from '@/components/Countdown';
 import { Cutout } from '@/components/Cutout';
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 
 const CHECKLIST = [
   'Six weeks of building, not one weekend',
-  'A team that meets the year and inclusion requirements',
+  'You register on your own. The organisers form the teams.',
   'Original work, committed as you go from your own account',
   'A deployed product with a public URL by the final',
 ];
@@ -34,10 +35,10 @@ export default function Register() {
         lead="Bring the curiosity and the commitment. The next six weeks are for building."
       />
 
-      <section className={`section ${styles.main}`} aria-labelledby="window-title">
+      <section className="section" aria-labelledby="window-title">
         <div className="shell">
           <div className={styles.grid}>
-            <div className={styles.action}>
+            <div>
               <h2 id="window-title" className={styles.windowTitle}>
                 Registration closes in
               </h2>
@@ -65,8 +66,28 @@ export default function Register() {
               </a>
 
               <p className={styles.announce}>
-                Teams are announced by {REGISTRATION.teamsAnnouncedBy}.
+                Everyone registers individually. Teams are announced by{' '}
+                {REGISTRATION.teamsAnnouncedBy}.
               </p>
+
+              {/* For a laptop or a projected slide: scan it with a phone. Hidden
+                  on phones, where the button above is the way in. */}
+              <figure className={styles.qr}>
+                <Image
+                  src="/register-qr.svg"
+                  width={164}
+                  height={164}
+                  alt=""
+                  unoptimized
+                  className={styles.qrCode}
+                />
+                <figcaption className={`meta ${styles.qrCaption}`}>
+                  Scan to register
+                  <span className={styles.qrBy}>
+                    by {REGISTRATION.closesDisplayShort}
+                  </span>
+                </figcaption>
+              </figure>
             </div>
 
             <div className={styles.before}>
@@ -77,7 +98,7 @@ export default function Register() {
                 ))}
               </ul>
 
-              <p className={`meta ${styles.teamLabel}`}>Your team needs</p>
+              <p className={`meta ${styles.teamLabel}`}>Every team has</p>
               <p className={styles.team}>{TEAM_RULES[0].body}</p>
               <p className={styles.team}>{TEAM_RULES[1].body}</p>
             </div>

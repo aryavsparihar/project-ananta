@@ -18,7 +18,7 @@ export default function Home() {
       <Hero />
 
       {/* ---------------------------------------------------- the point */}
-      <section className={`section ${styles.point}`} aria-labelledby="point-title">
+      <section className="section" aria-labelledby="point-title">
         <div className="shell">
           <Eyebrow>Why six weeks</Eyebrow>
 
@@ -80,7 +80,7 @@ export default function Home() {
       </div>
 
       {/* --------------------------------------------------- the route */}
-      <section className={`section ${styles.route}`} aria-labelledby="route-title">
+      <section className="section" aria-labelledby="route-title">
         <div className="shell">
           <div className={styles.routeHead}>
             <h2 id="route-title">
@@ -127,7 +127,7 @@ export default function Home() {
       </section>
 
       {/* ------------------------------------------------ what came before */}
-      <section className={`section ${styles.before}`} aria-labelledby="before-title">
+      <section className="section" aria-labelledby="before-title">
         <div className="shell">
           <Eyebrow>What came before</Eyebrow>
           <h2 id="before-title" className={styles.beforeTitle}>

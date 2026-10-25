@@ -34,7 +34,7 @@ export default function Journey() {
         number and the marks in plain words, so it reads as a timeline whether
         or not you have ever run `git log`.
       */}
-      <section className={`section ${styles.log}`} aria-labelledby="log-title">
+      <section className="section" aria-labelledby="log-title">
         <div className="shell">
           <div className={styles.logHead}>
             <h2 id="log-title" className={styles.logTitle}>
@@ -91,7 +91,7 @@ export default function Journey() {
             })}
 
             <li className={`${styles.entry} ${styles.headEntry}`}>
-              <span className={`${styles.node} ${styles.headNode}`} aria-hidden="true" />
+              <span className={styles.node} aria-hidden="true" />
               <div className={styles.line}>
                 <code className={styles.hash}>HEAD</code>
                 <span className={styles.date}>4 Dec</span>
@@ -113,7 +113,7 @@ export default function Journey() {
         <CircuitRule flip />
       </div>
 
-      <section className={`section ${styles.before}`} aria-labelledby="before-title">
+      <section className="section" aria-labelledby="before-title">
         <div className="shell">
           <h2 id="before-title" className={styles.beforeTitle}>
             Before any of that

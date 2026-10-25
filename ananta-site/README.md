@@ -22,17 +22,16 @@ A multi-page Next.js website for the six-week ANANTA project hackathon. Design d
 ## Admin setup (required before launch)
 
 1. Create a Supabase project and add URL + anon key to `.env.local`.
-2. Set `ADMIN_EMAIL` to the exact organiser email allowed to administer the site.
+2. Set `ADMIN_EMAILS` to the organiser emails allowed to administer the site, comma-separated.
 3. In Supabase Authentication, create/invite that email as a user and set its password securely. Disable public signups if they are not needed.
-4. The middleware checks the authenticated user's email against `ADMIN_EMAIL` for `/admin/*`. Do not expose service-role keys in browser code.
+4. The middleware checks the authenticated user's email against `ADMIN_EMAILS` for `/admin/*`. Do not expose service-role keys in browser code.
 5. The dashboard intentionally indicates where database-backed features belong. Before enabling registration management, create the required tables and strict Row Level Security policies. Do not collect student data in an unprotected public table.
-6. Set `NEXT_PUBLIC_REGISTRATION_URL` to the approved live registration form. It currently has a placeholder by design.
+6. The registration form is set in `content/event.ts`. `NEXT_PUBLIC_REGISTRATION_URL` overrides it if the form ever changes.
 
 ## Before public deployment
 
-- Confirm registration closing time, exact submission times, and post-Round-3 advancement details with organisers.
-- Add the final approved registration link and official contact channel.
-- Test mobile layouts, admin auth, and the 3D experience on campus Wi-Fi and low-power phones.
+- Registration closes 4 November 2026, 23:59 IST (confirmed); the countdown runs to it.
+- Test admin auth once the Supabase project and `ADMIN_EMAILS` are set in the host.
 - Add a proper database schema and admin CRUD actions before calling the admin panel complete.
 
 ## Important

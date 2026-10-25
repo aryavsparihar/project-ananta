@@ -3,8 +3,6 @@
  *
  * Pages import from here. Never retype a date, a mark or an attribution line
  * into a component - change it here and every page follows.
- *
- * Items marked TODO-CONFIRM are waiting on an organiser.
  */
 
 export const EVENT = {
@@ -36,13 +34,8 @@ export const REGISTRATION = {
   closesDisplayFull: '4 November 2026, 23:59 IST',
   teamsAnnouncedBy: '5 November',
 
-  /**
-   * TODO-CONFIRM: the exact closing time. Organisers have given the date
-   * (4 November) but not the hour. 23:59 IST (UTC+05:30) is the assumption
-   * the countdown runs on. Confirm, then change this one line.
-   */
+  /** The instant the countdown runs to. Confirmed by the organisers. */
   closesAt: '2026-11-04T23:59:00+05:30',
-  closesAtConfirmed: false,
 } as const;
 
 export type Round = {
@@ -204,13 +197,14 @@ export const TEAM_RULES = [
   },
 ] as const;
 
-/** Set via NEXT_PUBLIC_REGISTRATION_URL. Placeholder until organisers provide it. */
+/**
+ * The organisers' Google Form. NEXT_PUBLIC_REGISTRATION_URL overrides it, so a
+ * replacement form needs no code change. public/register-qr.svg encodes this
+ * same URL: regenerate it if the form changes (see the root README).
+ */
 export const REGISTRATION_URL =
-  process.env.NEXT_PUBLIC_REGISTRATION_URL || 'https://forms.gle/REPLACE_WITH_REAL_FORM';
-
-export const REGISTRATION_URL_IS_PLACEHOLDER = REGISTRATION_URL.includes(
-  'REPLACE_WITH_REAL_FORM',
-);
+  process.env.NEXT_PUBLIC_REGISTRATION_URL ||
+  'https://docs.google.com/forms/d/e/1FAIpQLSeDYTTzawslLVx6se_leJ91Y6uZSzkkuN5uyFLag9rwdoCPlQ/viewform';
 
 /** "SANGAM × DevGrowth × Code Club" */
 export const PRESENTED_BY = EVENT.presenters.join(' × ');

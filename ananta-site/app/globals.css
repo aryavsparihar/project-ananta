@@ -218,6 +218,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Also set on body (see there). iOS Safari only honours it on html. */
+  overflow-x: clip;
 }
 
 body,
@@ -261,6 +263,10 @@ textarea {
 body {
   position: relative;
   min-height: 100dvh;
+  /* The paste-up tilts photos and gives them torn-edge drop shadows; at 360px
+     a shadow can overhang the gutter by a few px. clip, not hidden: it adds no
+     scroll container, so the sticky nav keeps working. */
+  overflow-x: clip;
   background-color: var(--c-paper);
   color: var(--c-ink);
   font-family: var(--f-serif);

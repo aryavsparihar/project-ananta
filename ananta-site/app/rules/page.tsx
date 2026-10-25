@@ -27,7 +27,7 @@ export default function Rules() {
         lead="Five ground rules, so the work — and the people doing it — get a fair shot."
       />
 
-      <section className={`section ${styles.rules}`} aria-labelledby="rules-title">
+      <section className="section" aria-labelledby="rules-title">
         <div className="shell">
           <h2 id="rules-title" className="visually-hidden">
             The rules
@@ -86,7 +86,7 @@ export default function Rules() {
         </div>
       </section>
 
-      <section className={`section ${styles.prizes}`} aria-labelledby="prizes-title">
+      <section className="section" aria-labelledby="prizes-title">
         <div className="shell">
           <h2 id="prizes-title" className={styles.prizesTitle}>
             What&rsquo;s on the table

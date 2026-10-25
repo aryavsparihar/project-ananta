@@ -45,5 +45,8 @@
   },
   "simple-git-hooks": {
     "pre-commit": "sh ananta-site/scripts/pre-commit.sh"
+  },
+  "overrides": {
+    "postcss": "^8.5.31"
   }
 }

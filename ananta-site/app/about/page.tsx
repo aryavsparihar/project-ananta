@@ -28,7 +28,7 @@ export default function About() {
         lead="The hard part was never the idea. It is carrying one all the way to something other people can actually use."
       />
 
-      <section className={`section ${styles.meaning}`} aria-labelledby="meaning-title">
+      <section className="section" aria-labelledby="meaning-title">
         <div className="shell">
           <div className={styles.meaningGrid}>
             <div>
@@ -67,7 +67,7 @@ export default function About() {
         <CircuitRule />
       </div>
 
-      <section className={`section ${styles.what}`} aria-labelledby="what-title">
+      <section className="section" aria-labelledby="what-title">
         <div className="shell">
           <h2 id="what-title" className={styles.whatTitle}>
             What actually happens

@@ -38,14 +38,35 @@
   color: var(--c-muted);
 }
 
-/* A setup warning for us, not a message for students — reads as a note. */
-.placeholder {
-  margin-top: var(--s-5);
+/* The poster's QR card: white, inked edge, slightly off true. */
+.qr {
+  display: none;
+  margin: var(--s-7) 0 0;
+  width: max-content;
+}
+
+.qrCode {
+  display: block;
+  box-sizing: content-box;
   padding: var(--s-4);
-  border-left: 3px solid var(--c-saffron);
-  background: var(--c-paper-deep);
-  font-size: var(--t-sm);
-  max-width: calc(44 * var(--serif-ch));
+  background: #fff;
+  border: 2px solid var(--c-ink);
+  transform: rotate(-1.5deg);
+  box-shadow: 3px 4px 0 color-mix(in srgb, var(--c-ink) 18%, transparent);
+}
+
+.qrCaption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
+  margin-top: var(--s-4);
+}
+
+.qrBy {
+  background: var(--c-saffron);
+  color: var(--c-ink);
+  padding: 1px var(--s-2);
 }
 
 /* --------------------------------------------------------- before you */
@@ -131,6 +152,10 @@
 /* -------------------------------------------------------------- 768px+ */
 
 @media (min-width: 48rem) {
+  .qr {
+    display: block;
+  }
+
   .grid {
     grid-template-columns: 1fr 1fr;
     gap: var(--s-9);

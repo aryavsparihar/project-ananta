@@ -2,6 +2,8 @@
   max-width: 90rem;
   margin-inline: auto;
   padding: var(--s-6) var(--gutter) var(--s-8);
+  /* The wordmark sizes itself to this column; see .wordmark. */
+  container-type: inline-size;
 }
 
 /* ------------------------------------------------------------------ head */
@@ -38,9 +40,15 @@
 
 /* -------------------------------------------------------------- wordmark */
 
+/*
+ * Edge to edge, as on the poster. "ANANTA" sets 2.62em wide and the h1 hangs
+ * 0.035em into each margin, so the glyphs fill the column exactly when the
+ * size is column / 2.55. cqi is the column itself (the hero's content box);
+ * vw would count the desktop scrollbar and overshoot.
+ */
 .wordmark {
   margin: var(--s-4) 0 0;
-  font-size: var(--t-mega);
+  font-size: calc(100cqi / 2.55);
   line-height: 0.78;
   letter-spacing: -0.045em;
   /* The poster's wordmark is optically flush to both edges. */
@@ -54,12 +62,17 @@
 /* ------------------------------------------------------------- collage */
 
 /*
+ * Photo placement is written as `.collage > .photoX`: Cutout's own
+ * `.cutout { margin: 0 }` has the same specificity and loads later, so a bare
+ * `.photoLeft { margin-top }` lost and the stack never staggered.
+ *
  * Mobile first: a deliberately uneven stack, not a grid. The overlaps and
  * rotations come back harder as the viewport grows.
  */
 .collage {
   position: relative;
-  margin-top: calc(var(--s-4) * -1);
+  /* Tape and torn edges just catch the foot of the letters, as on the poster. */
+  margin-top: calc(var(--s-2) * -1);
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   align-items: start;
@@ -69,18 +82,18 @@
   grid-row: 1;
 }
 
-.photoMain {
+.collage > .photoMain {
   grid-column: 1 / 11;
   z-index: 2;
 }
 
-.photoLeft {
+.collage > .photoLeft {
   grid-column: 1 / 7;
   margin-top: 58%;
   z-index: 3;
 }
 
-.photoRight {
+.collage > .photoRight {
   grid-column: 7 / 13;
   margin-top: 42%;
   z-index: 1;
@@ -88,9 +101,12 @@
 
 .stamp {
   position: absolute;
-  top: -2.5rem;
-  right: -0.5rem;
+  top: 0.75rem;
+  right: -0.25rem;
   z-index: 5;
+  /* 150px is poster-sized; on a phone it reads as a seal at ~60%. */
+  scale: 0.6;
+  transform-origin: top right;
 }
 
 /* ------------------------------------------------------------- the strips */
@@ -101,7 +117,7 @@
   align-self: end;
   z-index: 4;
   margin: 0;
-  margin-top: 96%;
+  margin-top: 58%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -191,26 +207,27 @@
 
 @media (min-width: 48rem) {
   .collage {
-    margin-top: var(--s-2);
+    margin-top: calc(var(--s-3) * -1);
   }
 
-  .photoMain {
+  .collage > .photoMain {
     grid-column: 2 / 9;
   }
 
-  .photoLeft {
+  .collage > .photoLeft {
     grid-column: 1 / 5;
     margin-top: 44%;
   }
 
-  .photoRight {
+  .collage > .photoRight {
     grid-column: 9 / 13;
     margin-top: 18%;
   }
 
   .stamp {
-    top: -3.5rem;
+    top: -1.5rem;
     right: 1rem;
+    scale: 1;
   }
 
   .strips {
@@ -242,22 +259,22 @@
 /* -------------------------------------------------------------- 1024px+ */
 
 @media (min-width: 64rem) {
-  .photoMain {
+  .collage > .photoMain {
     grid-column: 3 / 9;
   }
 
-  .photoLeft {
+  .collage > .photoLeft {
     grid-column: 1 / 4;
     margin-top: 38%;
   }
 
-  .photoRight {
+  .collage > .photoRight {
     grid-column: 9 / 12;
     margin-top: 12%;
   }
 
   .stamp {
-    top: -4rem;
+    top: -2rem;
     right: 2.5rem;
   }
 
@@ -288,13 +305,13 @@
     animation-delay: 60ms;
   }
 
-  .photoMain {
+  .collage > .photoMain {
     animation-delay: 220ms;
   }
-  .photoLeft {
+  .collage > .photoLeft {
     animation-delay: 330ms;
   }
-  .photoRight {
+  .collage > .photoRight {
     animation-delay: 420ms;
   }
   .stamp {

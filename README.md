@@ -26,8 +26,8 @@ cp .env.example .env.local
 npm run dev             # http://localhost:3000
 ```
 
-`.env.local` holds placeholders until the real values are added. The site runs
-without Supabase; only `/admin` needs it.
+The public site needs nothing from `.env.local`: the registration form and every
+event fact are in `content/event.ts`. Only `/admin` needs the Supabase values.
 
 Once per clone, so `git blame` skips the reformat commit:
 
@@ -121,7 +121,13 @@ The event facts — dates, marks, the prize split, attribution — live in
 pages. Change a date there, not in a page. Never invent facts, numbers, sponsors or
 testimonials.
 
-Items an organiser still has to confirm are marked `TODO-CONFIRM` in that file.
+### Changing the registration form
+
+The form URL is `REGISTRATION_URL` in `content/event.ts`
+(`NEXT_PUBLIC_REGISTRATION_URL` overrides it). `/register` also shows a QR code,
+`public/register-qr.svg`, which encodes that URL. If the form changes, regenerate
+the QR from the new URL with any QR tool (`npx qrcode -t svg -q 0 -o
+ananta-site/public/register-qr.svg "<url>"`) and check it scans before merging.
 
 ### Adding a team member
 
@@ -137,7 +143,7 @@ Nothing is in a database; editing that file is the whole job.
      name: 'Mukti Porwal',
      role: 'PR Lead',
      group: 'organising-core',
-     club: 'sangam',
+     club: 'devgrowth',            // the person's own club; SANGAM only if none
      year: '3rd year',
      photo: 'mukti-porwal',        // the slug, no extension; omit for initials card
      linkedin: 'https://linkedin.com/in/…',
