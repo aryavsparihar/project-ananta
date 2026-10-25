@@ -11,6 +11,8 @@ const CLUB_LABEL: Record<Club, string> = {
   devgrowth: 'DevGrowth',
   codeclub: 'Code Club',
   smvdu: 'SMVDU',
+  null: 'NULL',
+  aiml: 'AI & ML',
 };
 
 type Props = {
@@ -80,7 +82,7 @@ export function Cutout({
               {CLUB_LABEL[meta.club]}
             </span>
           )}
-          {showCaption && <span className="meta">{meta.caption}</span>}
+          {showCaption && <span>{meta.caption}</span>}
         </figcaption>
       )}
     </figure>

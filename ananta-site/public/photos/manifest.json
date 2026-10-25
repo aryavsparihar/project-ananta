@@ -43,5 +43,80 @@
     "width": 1200,
     "height": 900,
     "tone": "saffron"
+  },
+  "imc-2024": {
+    "width": 1200,
+    "height": 800,
+    "tone": "navy"
+  },
+  "ibs-2024": {
+    "width": 1200,
+    "height": 800,
+    "tone": "ink"
+  },
+  "udyamitsav-26-win": {
+    "width": 1200,
+    "height": 800,
+    "tone": "saffron"
+  },
+  "udyamitsav-25": {
+    "width": 1200,
+    "height": 800,
+    "tone": "ink"
+  },
+  "codeforge-25": {
+    "width": 1200,
+    "height": 900,
+    "tone": "saffron"
+  },
+  "avalanche-25": {
+    "width": 1200,
+    "height": 900,
+    "tone": "navy"
+  },
+  "linux-git-26": {
+    "width": 1200,
+    "height": 900,
+    "tone": "ink"
+  },
+  "java-25": {
+    "width": 1200,
+    "height": 900,
+    "tone": "saffron"
+  },
+  "devgrowth-workshop": {
+    "width": 1200,
+    "height": 900,
+    "tone": "ink"
+  },
+  "codeclub-session": {
+    "width": 1200,
+    "height": 900,
+    "tone": "navy"
+  },
+  "null-ethical-hacking": {
+    "width": 1200,
+    "height": 800,
+    "tone": "ink"
+  },
+  "null-ctf": {
+    "width": 1200,
+    "height": 900,
+    "tone": "navy"
+  },
+  "null-workshop": {
+    "width": 1200,
+    "height": 900,
+    "tone": "saffron"
+  },
+  "aiml-awareness": {
+    "width": 1200,
+    "height": 675,
+    "tone": "ink"
+  },
+  "aiml-hackaithon": {
+    "width": 1200,
+    "height": 900,
+    "tone": "saffron"
   }
 }

@@ -7,7 +7,7 @@ import styles from './page.module.css';
 import { EVENT, ROUNDS, PRIZES, REGISTRATION } from '@/content/event';
 
 export const metadata: Metadata = {
-  title: `${EVENT.name} — ${EVENT.tagline}`,
+  title: `${EVENT.name} · ${EVENT.tagline}`,
   description: `${EVENT.blurb} ${EVENT.displayRange}, ${EVENT.school}. Registration ${REGISTRATION.displayRange}.`,
   alternates: { canonical: '/' },
 };

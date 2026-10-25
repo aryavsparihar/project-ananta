@@ -8,6 +8,7 @@ import styles from './SiteNav.module.css';
 const LINKS = [
   { href: '/about', label: 'The idea' },
   { href: '/journey', label: 'The journey' },
+  { href: '/glimpses', label: 'Glimpses' },
   { href: '/rules', label: 'Rules' },
   { href: '/team', label: 'Team' },
 ] as const;

@@ -1,0 +1,280 @@
+/*
+ * /glimpses: the record, then one section per club.
+ *
+ * Each club section sets --club / --club-on from its own colour, so the strip,
+ * the rules and the citation marks all follow the club. Selectors that restyle
+ * a shared component (Strip, Cutout) carry two classes: those components'
+ * own rules have the same specificity and can load later.
+ */
+
+.sangam {
+  --club: var(--c-sangam);
+  --club-on: var(--c-sangam-on);
+}
+.devgrowth {
+  --club: var(--c-devgrowth);
+  --club-on: var(--c-devgrowth-on);
+}
+.codeclub {
+  --club: var(--c-codeclub);
+  --club-on: var(--c-codeclub-on);
+}
+.null {
+  --club: var(--c-null);
+  --club-on: var(--c-null-on);
+}
+.aiml {
+  --club: var(--c-aiml);
+  --club-on: var(--c-aiml-on);
+}
+
+/* ------------------------------------------------------------ the record */
+
+.recordTitle {
+  font-size: var(--t-h2);
+  max-width: calc(16 * var(--display-ch));
+  margin-bottom: var(--s-7);
+}
+
+.records {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  border-top: 1px solid var(--c-rule-strong);
+}
+
+.record {
+  padding: var(--s-5) 0 var(--s-6);
+  border-bottom: 1px solid var(--c-rule);
+  border-left: 3px solid var(--club);
+  padding-left: var(--s-4);
+}
+
+.figure {
+  font-family: var(--f-display);
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
+  font-variation-settings: 'wdth' 75;
+  letter-spacing: -0.03em;
+  font-size: clamp(3rem, 12vw, 4.5rem);
+  line-height: 0.85;
+}
+
+.recordLine {
+  margin-top: var(--s-2);
+  font-family: var(--f-display);
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
+  font-variation-settings: 'wdth' 75;
+  font-size: 1.35rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.recordDetail {
+  margin-top: var(--s-3);
+  max-width: calc(40 * var(--serif-ch));
+  color: var(--c-muted);
+}
+
+/* Numbered citation, pointing at the source list at the foot of the page. */
+.cite {
+  display: inline-block;
+  min-width: 1.5em;
+  padding: 0 0.3em;
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  text-align: center;
+  vertical-align: 0.15em;
+  color: var(--c-ink);
+  border: 1px solid var(--c-rule-strong);
+  text-decoration: none;
+}
+
+.cite:hover {
+  background: var(--c-ink);
+  color: var(--c-paper);
+}
+
+/* --------------------------------------------------------- club sections */
+
+.club {
+  border-top: 1px solid var(--c-rule);
+}
+
+.clubGrid {
+  display: grid;
+  gap: var(--s-8);
+}
+
+.clubName {
+  margin: 0 0 var(--s-5);
+  font-size: clamp(2rem, 9vw, 3.25rem);
+}
+
+/* The club's name on a strip in its own colour, like the poster's strips. */
+.clubName .clubStrip {
+  background: var(--club);
+  color: var(--club-on);
+}
+
+.blurb {
+  font-size: var(--t-lead);
+  line-height: 1.35;
+  max-width: calc(34 * var(--serif-ch));
+  margin-bottom: var(--s-6);
+}
+
+.events {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--c-ink);
+}
+
+.event {
+  display: grid;
+  gap: var(--s-1);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--c-rule);
+}
+
+.eventName {
+  font-family: var(--f-serif);
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.eventMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-3);
+  font-size: var(--t-sm);
+  color: var(--c-muted);
+}
+
+/* Dates read like the poster's date labels. */
+.when {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink);
+  padding-top: 0.15em;
+}
+
+/* The paste-up: a loose two-column board, the first photo across both. */
+.board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-6) var(--s-4);
+  align-items: start;
+}
+
+.board > .pin:first-child {
+  grid-column: 1 / -1;
+  width: 92%;
+}
+
+.board > .pin:nth-child(3) {
+  margin-top: var(--s-6);
+}
+
+.board > .pin:nth-child(5) {
+  margin-top: var(--s-8);
+}
+
+/* Two photos: the second steps right and down, not left under the first. */
+.board > .pin:nth-child(2):last-child {
+  grid-column: 2;
+}
+
+/* ------------------------------------------------------------- sources */
+
+.sources {
+  background: var(--c-paper-deep);
+}
+
+.sourceList {
+  margin: var(--s-4) 0 0;
+  padding-left: 1.6em;
+  display: grid;
+  gap: var(--s-2);
+  font-size: var(--t-sm);
+  max-width: calc(70 * var(--serif-ch));
+}
+
+.sourceLink {
+  color: var(--c-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.sourceLink:hover {
+  text-decoration-color: var(--c-saffron-deep);
+  text-decoration-thickness: 2px;
+}
+
+.sourceList li:target {
+  background: color-mix(in srgb, var(--c-saffron) 22%, transparent);
+}
+
+/* --------------------------------------------------------------- the ask */
+
+.ask {
+  background: var(--c-navy);
+  color: var(--c-paper);
+}
+
+.askTitle {
+  font-size: var(--t-h1);
+  margin-bottom: var(--s-6);
+}
+
+.askCta {
+  display: inline-block;
+  background: var(--c-saffron);
+  color: var(--c-ink);
+  padding: var(--s-4) var(--s-6);
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.askCta:hover {
+  background: var(--c-paper);
+}
+
+/* -------------------------------------------------------------- 768px+ */
+
+@media (min-width: 48rem) {
+  .records {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--s-6);
+  }
+
+  .clubGrid {
+    grid-template-columns: 5fr 7fr;
+    gap: var(--s-9);
+    align-items: start;
+  }
+
+  /* Alternate sides, so the page zigzags like a pinned board. */
+  .flip .clubText {
+    order: 2;
+  }
+}
+
+/* ------------------------------------------------------------- 1024px+ */
+
+@media (min-width: 64rem) {
+  .records {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

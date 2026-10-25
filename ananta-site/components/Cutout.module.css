@@ -73,24 +73,33 @@
 
 /* --------------------------------------------------------------- caption */
 
+/*
+ * Captioned like a newspaper photo: serif italic, sentence case. The club
+ * chip beside it uses the display face, like the poster's strips.
+ */
 .caption {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--s-2) var(--s-3);
   color: var(--c-muted);
-  font-family: var(--f-mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  line-height: 1.4;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: var(--t-sm);
+  line-height: 1.35;
 }
 
 /* Club tag. Each pair is fixed in globals.css and checked by npm run contrast. */
 .tag {
-  padding: 3px var(--s-2);
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  padding: 1px var(--s-2) 0;
+  font-family: var(--f-display);
+  font-style: normal;
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
+  font-variation-settings: 'wdth' 75;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
@@ -109,4 +118,12 @@
 .smvdu {
   background: var(--c-smvdu);
   color: var(--c-smvdu-on);
+}
+.null {
+  background: var(--c-null);
+  color: var(--c-null-on);
+}
+.aiml {
+  background: var(--c-aiml);
+  color: var(--c-aiml-on);
 }

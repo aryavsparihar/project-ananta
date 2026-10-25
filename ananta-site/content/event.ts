@@ -20,14 +20,14 @@ export const EVENT = {
 
   starts: '2026-10-23',
   ends: '2026-12-04',
-  displayRange: '23 October — 4 December 2026',
+  displayRange: '23 October to 4 December 2026',
   year: 2026,
 } as const;
 
 export const REGISTRATION = {
   opens: '2026-10-23',
   closes: '2026-11-04',
-  displayRange: '23 Oct — 4 Nov',
+  displayRange: '23 Oct to 4 Nov',
   /** Rendered forms of `closes`, so pages never re-derive a date from a string. */
   closesDisplay: '4 November',
   closesDisplayShort: '4 Nov',
@@ -73,7 +73,7 @@ export const ROUNDS: Round[] = [
     deliverable: 'PPT submission',
     start: '2026-11-06',
     end: '2026-11-12',
-    dateLabel: '6—12 Nov',
+    dateLabel: '6–12 Nov',
     marks: 20,
     onCampus: false,
     mode: 'Online',
@@ -92,7 +92,7 @@ export const ROUNDS: Round[] = [
     deliverable: 'Figma or Adobe XD prototype',
     start: '2026-11-13',
     end: '2026-11-18',
-    dateLabel: '13—18 Nov',
+    dateLabel: '13–18 Nov',
     marks: 20,
     onCampus: false,
     mode: null,
@@ -111,7 +111,7 @@ export const ROUNDS: Round[] = [
     deliverable: 'No submission',
     start: '2026-11-19',
     end: '2026-11-24',
-    dateLabel: '19—24 Nov',
+    dateLabel: '19–24 Nov',
     marks: null,
     onCampus: false,
     mode: null,

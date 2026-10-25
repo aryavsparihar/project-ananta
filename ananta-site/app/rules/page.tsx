@@ -24,7 +24,7 @@ export default function Rules() {
             <em>Make it work.</em>
           </>
         }
-        lead="Five ground rules, so the work — and the people doing it — get a fair shot."
+        lead="Five ground rules, so the work and the people doing it get a fair shot."
       />
 
       <section className="section" aria-labelledby="rules-title">
@@ -59,8 +59,8 @@ export default function Rules() {
               <div className={`prose ${styles.auditBody}`}>
                 <p>
                   Nobody is trying to catch you out. The history is checked because it is
-                  the only honest record of how a product got built — who wrote what,
-                  when, and in what order.
+                  the only honest record of how a product got built: who wrote what, when,
+                  and in what order.
                 </p>
                 <p>
                   Commit as you go, from your own account, in small pieces. A repository

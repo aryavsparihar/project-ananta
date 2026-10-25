@@ -144,6 +144,11 @@
   --c-codeclub-on: #ffffff; /* 5.17:1 */
   --c-smvdu: #007830;
   --c-smvdu-on: #ffffff; /* 5.63:1 */
+  /* NULL's mark is black and white; AI & ML's is green, kept apart from SMVDU's. */
+  --c-null: #2e2e2e;
+  --c-null-on: #ffffff;
+  --c-aiml: #0b6b5c;
+  --c-aiml-on: #ffffff;
   --c-charcoal: #2e2e2e;
 
   /* --- derived -------------------------------------------------------- */

@@ -34,6 +34,8 @@ const T = {
   devgrowth: '#0078C0',
   codeclub: '#6A4BFF',
   smvdu: '#007830',
+  nullclub: '#2E2E2E',
+  aiml: '#0B6B5C',
 };
 
 /** [foreground, background, where it is used, large-only?] */
@@ -55,6 +57,8 @@ const PAIRS = [
   ['white', 'devgrowth', 'DevGrowth club tag', false],
   ['white', 'codeclub', 'Code Club tag', false],
   ['white', 'smvdu', 'SMVDU tag', false],
+  ['white', 'nullclub', 'NULL club tag', false],
+  ['white', 'aiml', 'AI & ML Club tag', false],
 ];
 
 /**

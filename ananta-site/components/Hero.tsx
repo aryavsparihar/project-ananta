@@ -28,7 +28,7 @@ export function Hero() {
         <span className={styles.wordmarkText}>{EVENT.name}</span>
         <span className="visually-hidden">
           {' '}
-          — {EVENT.devanagari}, {EVENT.meaning}. {EVENT.tagline}
+          , {EVENT.devanagari}, {EVENT.meaning}. {EVENT.tagline}
         </span>
       </h1>
 

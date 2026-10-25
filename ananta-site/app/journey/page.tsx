@@ -30,7 +30,7 @@ export default function Journey() {
 
       {/*
         The build log. It is the event's own git-audit rule turned into the
-        page's structure — but every entry still says the date, the round
+        page's structure, but every entry still says the date, the round
         number and the marks in plain words, so it reads as a timeline whether
         or not you have ever run `git log`.
       */}
@@ -41,7 +41,7 @@ export default function Journey() {
               The build log
             </h2>
             <p className={styles.logKey}>
-              <code className={styles.sample}>a1d3f09</code> is a commit hash — the short
+              <code className={styles.sample}>a1d3f09</code> is a commit hash: the short
               id git gives every saved change. Each round below is one entry in the
               project&rsquo;s history.
             </p>

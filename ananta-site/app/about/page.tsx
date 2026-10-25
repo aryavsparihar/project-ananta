@@ -41,7 +41,7 @@ export default function About() {
               </h2>
               <div className={`prose ${styles.meaningBody}`}>
                 <p>
-                  {EVENT.name} means endless. Not endless work — endless in the sense that
+                  {EVENT.name} means endless. Not endless work. Endless in the sense that
                   a product you ship does not stop when the event does. It stays online,
                   it keeps a commit history, and it is still yours in March.
                 </p>
@@ -96,7 +96,7 @@ export default function About() {
                 <li>A deployed product with a public URL</li>
                 <li>A git history that shows how it was built</li>
                 <li>
-                  A share of {PRIZES.poolLabel} if you place —{' '}
+                  A share of {PRIZES.poolLabel} if you place:{' '}
                   {PRIZES.places.map((p) => p.amount).join(' / ')}
                 </li>
                 <li>One of {PRIZES.certificates} certificates</li>
@@ -125,8 +125,8 @@ export default function About() {
                 </Strip>
               </p>
               <p className={styles.ruleNote}>
-                Commit history and commit authenticity are audited. That is not a threat —
-                it is the whole point of running this over six weeks instead of one night.
+                Commit history and commit authenticity are audited. That is not a threat.
+                It is the whole point of running this over six weeks instead of one night.
               </p>
               <p>
                 <Link href="/rules" className="link">

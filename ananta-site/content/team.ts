@@ -4,15 +4,14 @@
  * Static on purpose — no database, no Supabase. Editing this file is the whole
  * job of adding someone. See "Adding a team member" in the root README.
  *
- * Faculty names, designations and order were confirmed by Aryaveer. Student
+ * Faculty names, designations and order were confirmed by the organisers. Student
  * names and roles are from the SANGAM deck (25 Sept 2026); where the deck lists
- * one person under two spellings, Aryaveer confirmed which is right.
+ * one person under two spellings, the organisers confirmed which is right.
  * A production build refuses to run while any `TODO Name` remains:
  * see scripts/check-team.mjs.
  */
 
-export type TeamGroupId =
-  'faculty' | 'organising-core' | 'devgrowth' | 'codeclub' | 'web';
+export type TeamGroupId = 'faculty' | 'organising-core' | 'devgrowth' | 'codeclub';
 
 export type Club = 'sangam' | 'devgrowth' | 'codeclub' | 'smvdu';
 
@@ -66,18 +65,13 @@ export const GROUPS: TeamGroup[] = [
     blurb: 'Contests, sessions and the student build community.',
     club: 'codeclub',
   },
-  {
-    id: 'web',
-    title: 'Website & design',
-    blurb: 'This site.',
-    club: 'sangam',
-  },
 ];
 
 export const TEAM: Person[] = [
   // --- Faculty — this order is deliberate ------------------------------------
   {
     name: 'Dr. Ankush Raina',
+    photo: 'ankush-raina',
     role: 'President, Board of Professional Activities',
     group: 'faculty',
     club: 'smvdu',
@@ -85,6 +79,7 @@ export const TEAM: Person[] = [
   },
   {
     name: 'Dr. Sunanda',
+    photo: 'sunanda',
     role: 'Head of Department, SoCSE',
     group: 'faculty',
     club: 'smvdu',
@@ -92,6 +87,7 @@ export const TEAM: Person[] = [
   },
   {
     name: 'Dr. Sonika Gupta',
+    photo: 'sonika-gupta',
     role: 'Faculty Coordinator',
     group: 'faculty',
     club: 'smvdu',
@@ -99,6 +95,7 @@ export const TEAM: Person[] = [
   },
   {
     name: 'Dr. Shashi Bhushan Kotwal',
+    photo: 'shashi-bhushan-kotwal',
     role: 'Faculty Coordinator',
     group: 'faculty',
     club: 'smvdu',
@@ -106,6 +103,7 @@ export const TEAM: Person[] = [
   },
   {
     name: 'Dr. Swastik Gupta',
+    photo: 'swastik-gupta',
     role: 'Faculty Coordinator',
     group: 'faculty',
     club: 'smvdu',
@@ -117,76 +115,152 @@ export const TEAM: Person[] = [
   // their club role is folded into this one. Each person appears once.
   {
     name: 'Yash Srivastava',
+    photo: 'yash-srivastava',
     role: 'President · DevGrowth Coordinator',
     group: 'organising-core',
     club: 'devgrowth',
   },
   {
     name: 'Sachin Tripathi',
+    photo: 'sachin-tripathi',
     role: 'Vice President · DevGrowth Co-Coordinator',
     group: 'organising-core',
     club: 'devgrowth',
   },
   {
     name: 'Kartikey Saxena',
+    photo: 'kartikey-saxena',
     role: 'Vice President · DevGrowth Co-Coordinator',
     group: 'organising-core',
     club: 'devgrowth',
   },
   {
     name: 'Maneesh Kumar',
+    photo: 'maneesh-kumar',
     role: 'Finance Lead · Code Club Coordinator',
     group: 'organising-core',
     club: 'codeclub',
   },
   {
     name: 'Shubham Saini',
+    photo: 'shubham-saini',
     role: 'Technical Lead',
     group: 'organising-core',
     club: 'devgrowth',
   },
-  { name: 'Mukti Porwal', role: 'PR Lead', group: 'organising-core', club: 'devgrowth' },
+  {
+    name: 'Mukti Porwal',
+    role: 'PR Lead',
+    group: 'organising-core',
+    club: 'devgrowth',
+    photo: 'mukti-porwal',
+  },
   {
     name: 'Naresh Kumar',
+    photo: 'naresh-kumar',
     role: 'Management Lead',
     group: 'organising-core',
     club: 'devgrowth',
   },
   {
     name: 'Akshit Raj',
+    photo: 'akshit-raj',
     role: 'Co-Management Lead',
     group: 'organising-core',
     club: 'devgrowth',
   },
 
   // --- DevGrowth -----------------------------------------------------------
-  { name: 'Subham Prasad', role: 'Core Team', group: 'devgrowth', club: 'devgrowth' },
+  {
+    name: 'Subham Prasad',
+    role: 'Core Team',
+    group: 'devgrowth',
+    club: 'devgrowth',
+    photo: 'subham-prasad',
+  },
   // The deck gives first names only for the wider team.
-  { name: 'Srijan', role: 'Team', group: 'devgrowth', club: 'devgrowth' },
-  { name: 'Ankita', role: 'Team', group: 'devgrowth', club: 'devgrowth' },
-  { name: 'Astha', role: 'Team', group: 'devgrowth', club: 'devgrowth' },
-  { name: 'Rishu', role: 'Team', group: 'devgrowth', club: 'devgrowth' },
-  { name: 'Sneha', role: 'Team', group: 'devgrowth', club: 'devgrowth' },
-  { name: 'Prince', role: 'Team', group: 'devgrowth', club: 'devgrowth' },
-  { name: 'Shailja', role: 'Team', group: 'devgrowth', club: 'devgrowth' },
-  { name: 'Armaan', role: 'Team', group: 'devgrowth', club: 'devgrowth' },
+  {
+    name: 'Srijan',
+    role: 'Team',
+    group: 'devgrowth',
+    club: 'devgrowth',
+    photo: 'srijan',
+  },
+  {
+    name: 'Ankita',
+    role: 'Team',
+    group: 'devgrowth',
+    club: 'devgrowth',
+    photo: 'ankita',
+  },
+  { name: 'Astha', role: 'Team', group: 'devgrowth', club: 'devgrowth', photo: 'astha' },
+  { name: 'Rishu', role: 'Team', group: 'devgrowth', club: 'devgrowth', photo: 'rishu' },
+  { name: 'Sneha', role: 'Team', group: 'devgrowth', club: 'devgrowth', photo: 'sneha' },
+  {
+    name: 'Prince',
+    role: 'Team',
+    group: 'devgrowth',
+    club: 'devgrowth',
+    photo: 'prince',
+  },
+  {
+    name: 'Shailja',
+    role: 'Team',
+    group: 'devgrowth',
+    club: 'devgrowth',
+    photo: 'shailja',
+  },
+  {
+    name: 'Armaan',
+    role: 'Team',
+    group: 'devgrowth',
+    club: 'devgrowth',
+    photo: 'armaan',
+  },
 
   // --- Code Club -----------------------------------------------------------
-  { name: 'Tejas Singh', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
-  { name: 'Himanshu Soni', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
-  { name: 'Kushagra Pandey', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
-  { name: 'Nandita Gupta', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
-  { name: 'Shivali Virdi', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
-  { name: 'Manthan Gupta', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
-
-  // --- Website & design ----------------------------------------------------
   {
-    name: 'Aryaveer Singh Parihar',
-    role: 'Frontend & design',
-    group: 'web',
-    club: 'sangam',
+    name: 'Tejas Singh',
+    role: 'Core Team',
+    group: 'codeclub',
+    club: 'codeclub',
+    photo: 'tejas-singh',
   },
-  { name: 'Mayank', role: 'Backend & admin', group: 'web', club: 'sangam' },
+  {
+    name: 'Himanshu Soni',
+    role: 'Core Team',
+    group: 'codeclub',
+    club: 'codeclub',
+    photo: 'himanshu-soni',
+  },
+  {
+    name: 'Kushagra Pandey',
+    role: 'Core Team',
+    group: 'codeclub',
+    club: 'codeclub',
+    photo: 'kushagra-pandey',
+  },
+  {
+    name: 'Nandita Gupta',
+    role: 'Core Team',
+    group: 'codeclub',
+    club: 'codeclub',
+    photo: 'nandita-gupta',
+  },
+  {
+    name: 'Shivali Virdi',
+    role: 'Core Team',
+    group: 'codeclub',
+    club: 'codeclub',
+    photo: 'shivali-virdi',
+  },
+  {
+    name: 'Manthan Gupta',
+    role: 'Core Team',
+    group: 'codeclub',
+    club: 'codeclub',
+    photo: 'manthan-gupta',
+  },
 ];
 
 /** True while a row is still a placeholder. */

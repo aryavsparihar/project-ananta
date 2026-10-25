@@ -8,8 +8,8 @@ import { EVENT, PRESENTED_BY, SITE_URL } from '@/content/event';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${EVENT.name} — ${EVENT.tagline}`,
-    template: `%s — ${EVENT.name}`,
+    default: `${EVENT.name} · ${EVENT.tagline}`,
+    template: `%s · ${EVENT.name}`,
   },
   description: `${EVENT.blurb} ${EVENT.displayRange}, ${EVENT.school}.`,
   applicationName: EVENT.name,
@@ -29,12 +29,12 @@ export const metadata: Metadata = {
     siteName: EVENT.name,
     locale: 'en_IN',
     url: SITE_URL,
-    title: `${EVENT.name} — ${EVENT.tagline}`,
+    title: `${EVENT.name} · ${EVENT.tagline}`,
     description: `${EVENT.blurb} ${EVENT.displayRange}.`,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${EVENT.name} — ${EVENT.tagline}`,
+    title: `${EVENT.name} · ${EVENT.tagline}`,
     description: EVENT.blurb,
   },
   alternates: { canonical: '/' },

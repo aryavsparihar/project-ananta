@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { EVENT, PRESENTED_BY, REGISTRATION } from '@/content/event';
 
-export const alt = `${EVENT.name} — ${EVENT.tagline}`;
+export const alt = `${EVENT.name} · ${EVENT.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 

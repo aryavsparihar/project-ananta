@@ -107,7 +107,7 @@ export function TeamCard({
                 LinkedIn
                 <span className="visually-hidden">
                   {' '}
-                  — {person.name}, opens in a new tab
+                  ({person.name}, opens in a new tab)
                 </span>
               </a>
             )}
@@ -116,7 +116,7 @@ export function TeamCard({
                 GitHub
                 <span className="visually-hidden">
                   {' '}
-                  — {person.name}, opens in a new tab
+                  ({person.name}, opens in a new tab)
                 </span>
               </a>
             )}

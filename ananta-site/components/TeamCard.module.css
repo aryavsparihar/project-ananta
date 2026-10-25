@@ -149,11 +149,21 @@
   border-left: 3px solid var(--club);
 }
 
+/*
+ * The name is a small poster headline: the condensed display face, as on the
+ * wordmark and the strips. The role underneath stays in the serif italic.
+ */
 .name {
-  font-family: var(--f-mono);
-  font-size: var(--t-sm);
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  font-family: var(--f-display);
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
+  font-variation-settings:
+    'wdth' 75,
+    'opsz' 48;
+  font-size: 1.3rem;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 .pending .name {
@@ -178,19 +188,21 @@
 .tag {
   background: var(--club);
   color: var(--club-on);
-  padding: 2px var(--s-2);
-  font-family: var(--f-mono);
-  font-size: var(--t-xs);
-  font-weight: 500;
-  letter-spacing: 0.07em;
+  padding: 1px var(--s-2) 0;
+  font-family: var(--f-display);
+  font-weight: var(--display-weight);
+  font-stretch: var(--display-stretch);
+  font-variation-settings: 'wdth' 75;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
+/* Year or school beside the chip: "SoCSE" keeps its own casing. */
 .year {
-  font-family: var(--f-mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: var(--t-sm);
   color: var(--c-muted);
 }
 
@@ -217,5 +229,5 @@
 }
 
 .featured .name {
-  font-size: var(--t-base);
+  font-size: 1.6rem;
 }

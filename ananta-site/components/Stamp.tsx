@@ -97,7 +97,7 @@ export function Stamp({ size = 150, className }: Props) {
 
       {/* The stamp carries meaning, so it has a text equivalent. */}
       <span className="visually-hidden">
-        {EVENT.devanagari} — one live product, six weeks, all years.
+        {EVENT.devanagari}: one live product, six weeks, all years.
       </span>
     </div>
   );
