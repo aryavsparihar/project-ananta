@@ -4,12 +4,7 @@ import { Countdown } from '@/components/Countdown';
 import { Cutout } from '@/components/Cutout';
 import { Strip } from '@/components/Marks';
 import styles from './page.module.css';
-import {
-  EVENT,
-  REGISTRATION,
-  REGISTRATION_URL,
-  TEAM_RULES,
-} from '@/content/event';
+import { EVENT, REGISTRATION, REGISTRATION_URL, TEAM_RULES } from '@/content/event';
 
 export const metadata: Metadata = {
   title: 'Register',
