@@ -9,10 +9,12 @@
  * Fails the build. Checks only; it does not read, change or load any value
  * beyond the names and a substring test, and never prints a value.
  */
+
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('..', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
 
 /** Markers that mean "this is a server-side secret, not a publishable key". */
 const SECRET_MARKERS = ['service_role', 'sb_secret', 'sbp_', 'SUPABASE_SERVICE_ROLE'];
