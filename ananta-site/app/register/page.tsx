@@ -65,34 +65,29 @@ export default function Register() {
                 <span className="visually-hidden"> (opens in a new tab)</span>
               </a>
 
-             
-<p className={styles.announce}>
-  Everyone registers individually. Teams are announced by{' '}
-  {REGISTRATION.teamsAnnouncedBy}.
-</p>
+              <p className={styles.announce}>
+                Everyone registers individually. Teams are announced by{' '}
+                {REGISTRATION.teamsAnnouncedBy}.
+              </p>
 
-{/* For a laptop or a projected slide: scan it with a phone. Hidden
+              {/* For a laptop or a projected slide: scan it with a phone. Hidden
     on phones, where the button above is the way in. */}
-<figure className={styles.qr}>
-  <Image
-    src="/register-qr.svg"
-    width={164}
-    height={164}
-    alt=""
-    unoptimized
-    className={styles.qrCode}
-  />
-  <figcaption className={`meta ${styles.qrCaption}`}>
-    Scan to register
-    <span className={styles.qrBy}>
-      by {REGISTRATION.closesDisplayShort}
-    </span>
-  </figcaption>
-</figure>
-
-
-          
-
+              <figure className={styles.qr}>
+                <Image
+                  src="/register-qr.svg"
+                  width={164}
+                  height={164}
+                  alt=""
+                  unoptimized
+                  className={styles.qrCode}
+                />
+                <figcaption className={`meta ${styles.qrCaption}`}>
+                  Scan to register
+                  <span className={styles.qrBy}>
+                    by {REGISTRATION.closesDisplayShort}
+                  </span>
+                </figcaption>
+              </figure>
             </div>
 
             <div className={styles.before}>

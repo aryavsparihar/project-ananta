@@ -1,4 +1,3 @@
-
 /**
  * Captions and alt text for the treated event photos.
  *
