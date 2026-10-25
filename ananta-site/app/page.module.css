@@ -124,7 +124,7 @@
 
 .roundSummary {
   color: var(--c-muted);
-  max-width: 46ch;
+  max-width: calc(46 * var(--serif-ch));
 }
 
 .roundMeta {
@@ -171,7 +171,7 @@
 .beforeTitle {
   font-size: var(--t-h2);
   margin-bottom: var(--s-8);
-  max-width: 18ch;
+  max-width: calc(18 * var(--display-ch));
 }
 
 /*
@@ -221,7 +221,7 @@
 .askLine {
   font-family: var(--f-serif);
   font-size: var(--t-lead);
-  max-width: 30ch;
+  max-width: calc(30 * var(--serif-ch));
   color: color-mix(in srgb, var(--c-paper) 90%, var(--c-navy));
 }
 

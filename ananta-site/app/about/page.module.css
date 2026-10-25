@@ -30,7 +30,7 @@
 }
 
 .meaningBody {
-  max-width: 48ch;
+  max-width: calc(48 * var(--serif-ch));
 }
 
 .meaningPhoto {
@@ -42,7 +42,7 @@
 .whatTitle {
   font-size: var(--t-h2);
   margin-bottom: var(--s-7);
-  max-width: 14ch;
+  max-width: calc(14 * var(--display-ch));
 }
 
 .whatGrid {
@@ -104,7 +104,7 @@
 }
 
 .ruleNote {
-  max-width: 44ch;
+  max-width: calc(44 * var(--serif-ch));
   margin-bottom: var(--s-5);
   color: var(--c-muted);
 }

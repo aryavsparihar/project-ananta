@@ -4,7 +4,7 @@
   border-left: 3px solid var(--c-saffron);
   background: var(--c-paper-deep);
   font-size: var(--t-sm);
-  max-width: 60ch;
+  max-width: calc(60 * var(--serif-ch));
 }
 
 /* ---------------------------------------------------------------- group */
@@ -118,13 +118,13 @@
 
 .joinTitle {
   font-size: var(--t-h2);
-  max-width: 16ch;
+  max-width: calc(16 * var(--display-ch));
   margin-bottom: var(--s-4);
 }
 
 .joinBody {
   font-family: var(--f-serif);
   font-size: var(--t-lead);
-  max-width: 42ch;
+  max-width: calc(42 * var(--serif-ch));
   color: color-mix(in srgb, var(--c-paper) 88%, var(--c-navy));
 }

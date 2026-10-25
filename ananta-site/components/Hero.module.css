@@ -6,13 +6,27 @@
 
 /* ------------------------------------------------------------------ head */
 
+/*
+ * Stacked on phones, a row from 30rem. Not a free flex-wrap: at ~412px the two
+ * lines only just fit side by side in the real fonts and do not in the
+ * fallbacks, so the row unwrapped on font swap and lifted the whole hero 25px
+ * (0.13 CLS on /). Below 30rem it is now always two lines, whatever the font.
+ */
 .head {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--s-2) var(--s-4);
   color: var(--c-muted);
+}
+
+@media (min-width: 30rem) {
+  .head {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+  }
 }
 
 .presents {
@@ -132,7 +146,7 @@
   font-family: var(--f-serif);
   font-size: var(--t-lead);
   line-height: 1.35;
-  max-width: 30ch;
+  max-width: calc(30 * var(--serif-ch));
 }
 
 .actions {

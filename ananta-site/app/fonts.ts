@@ -50,7 +50,15 @@ export const serif = Instrument_Serif({
   style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-serif',
-  fallback: ['Georgia', 'Times New Roman', 'serif'],
+  // next's generated fallback is Times New Roman only; the two metric-matched
+  // faces after it cover Linux and Android. See globals.css.
+  fallback: [
+    'SerifFallbackTimes',
+    'SerifFallbackNoto',
+    'Georgia',
+    'Times New Roman',
+    'serif',
+  ],
   adjustFontFallback: true,
   // See the note on `display` below: only the display face is preloaded.
   preload: false,
