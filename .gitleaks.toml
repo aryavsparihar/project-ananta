@@ -3,7 +3,17 @@
 useDefault = true
 
 [allowlist]
-description = "Template placeholders, never real values"
+description = "Template placeholders, never real values; two pre-CI build-output commits"
+# f9e6c86 and fd7718a committed ananta-site/.next/ from a local dev build. It
+# holds Next.js preview-mode / server-action keys (bare hex), which Next
+# regenerates on every build; nothing deployed uses them and the site has no
+# draft mode. They stay in history until the purge in docs/history-cleanup.md
+# runs. Allowlisted by commit, not by path, so anything new under .next/ - or
+# anywhere else - still fails this check. Remove these two lines after the purge.
+commits = [
+  "f9e6c861be66e956b831430d5ed593a5545f6a83",
+  "fd7718a3c7d12be969ebea1094de1b11fd267d0b",
+]
 paths = [
   '''\.env\.example$''',
   '''\.gitleaks\.toml$''',
