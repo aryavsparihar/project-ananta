@@ -90,10 +90,10 @@ function AdminSignIn() {
           </p>
         )}
 
-        <p className={styles.note}>
+        {/* <p className={styles.note}>
           Access is restricted by a server-side allowlist. Create the approved account in
           Supabase; never put credentials in source code.
-        </p>
+        </p> */}
       </div>
     </section>
   );

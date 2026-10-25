@@ -4,13 +4,7 @@ import { Countdown } from '@/components/Countdown';
 import { Cutout } from '@/components/Cutout';
 import { Strip } from '@/components/Marks';
 import styles from './page.module.css';
-import {
-  EVENT,
-  REGISTRATION,
-  REGISTRATION_URL,
-  REGISTRATION_URL_IS_PLACEHOLDER,
-  TEAM_RULES,
-} from '@/content/event';
+import { EVENT, REGISTRATION, REGISTRATION_URL, TEAM_RULES } from '@/content/event';
 
 export const metadata: Metadata = {
   title: 'Register',
@@ -73,14 +67,6 @@ export default function Register() {
               <p className={styles.announce}>
                 Teams are announced by {REGISTRATION.teamsAnnouncedBy}.
               </p>
-
-              {REGISTRATION_URL_IS_PLACEHOLDER && (
-                <p className={styles.placeholder} role="note">
-                  <strong>Setup note:</strong> this button still points at the
-                  placeholder. Set <code>NEXT_PUBLIC_REGISTRATION_URL</code> to the
-                  approved form before launch.
-                </p>
-              )}
             </div>
 
             <div className={styles.before}>
@@ -117,7 +103,7 @@ export default function Register() {
             </div>
 
             <Cutout
-              slug="devgrowth-launch"
+              slug="sangam-launch"
               sizes="(min-width: 64rem) 34vw, (min-width: 48rem) 46vw, 84vw"
               rotate={1.8}
               tape={['tl', 'br']}
