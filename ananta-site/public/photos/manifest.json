@@ -1,10 +1,5 @@
 {
-  "devgrowth-launch": {
-    "width": 1200,
-    "height": 900,
-    "tone": "ink"
-  },
-  "sangam-launch!": {
+  "sangam-launch": {
     "width": 1200,
     "height": 900,
     "tone": "ink"
@@ -19,7 +14,7 @@
     "height": 900,
     "tone": "ink"
   },
-  "sangam-launch": {
+  "sangam-launch-stage": {
     "width": 1200,
     "height": 1600,
     "tone": "navy"

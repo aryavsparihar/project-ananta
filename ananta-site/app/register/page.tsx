@@ -8,7 +8,6 @@ import {
   EVENT,
   REGISTRATION,
   REGISTRATION_URL,
-  REGISTRATION_URL_IS_PLACEHOLDER,
   TEAM_RULES,
 } from '@/content/event';
 
@@ -73,14 +72,6 @@ export default function Register() {
               <p className={styles.announce}>
                 Teams are announced by {REGISTRATION.teamsAnnouncedBy}.
               </p>
-
-              {/* {REGISTRATION_URL_IS_PLACEHOLDER && (
-                // <p className={styles.placeholder} role="note">
-                //   <strong>Setup note:</strong> this button still points at the
-                //   placeholder. Set <code>NEXT_PUBLIC_REGISTRATION_URL</code> to the
-                //   approved form before launch.
-                // </p>
-              )} */}
             </div>
 
             <div className={styles.before}>

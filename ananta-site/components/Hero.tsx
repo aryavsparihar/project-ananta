@@ -51,7 +51,7 @@ export function Hero() {
           className={`${styles.photo} ${styles.photoLeft}`}
         />
         <Cutout
-          slug="sangam-launch"
+          slug="sangam-launch-stage"
           sizes="(min-width: 64rem) 20vw, (min-width: 48rem) 28vw, 42vw"
           rotate={-2.5}
           tape={['bl']}

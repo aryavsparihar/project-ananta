@@ -22,9 +22,9 @@ export type Photo = {
 
 export const PHOTOS: Record<string, Photo> = {
   'sangam-launch': {
-    slug: 'SANGAM-launch',
+    slug: 'sangam-launch',
     caption: 'SANGAM launch · 200+ in the room',
-    alt: 'A packed lecture hall at the DevGrowth launch, most of the audience with their hands raised.',
+    alt: 'A packed lecture hall at the SANGAM launch, most of the audience with their hands raised.',
     club: 'sangam',
   },
   'ai-stack': {
@@ -69,8 +69,8 @@ export const PHOTOS: Record<string, Photo> = {
     alt: "Winners holding their certificates at EKATVA '26.",
     club: 'smvdu',
   },
-  'sangam-launch!': {
-    slug: 'sangam-launch',
+  'sangam-launch-stage': {
+    slug: 'sangam-launch-stage',
     caption: 'SANGAM launch',
     alt: 'A speaker beside a screen showing the SANGAM logo at the community launch.',
     club: 'sangam',
