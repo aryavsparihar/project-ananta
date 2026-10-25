@@ -21,11 +21,11 @@ export type Photo = {
 };
 
 export const PHOTOS: Record<string, Photo> = {
-  'devgrowth-launch': {
-    slug: 'devgrowth-launch',
-    caption: 'DevGrowth launch · 200+ in the room',
+  'sangam-launch': {
+    slug: 'SANGAM-launch',
+    caption: 'SANGAM launch · 200+ in the room',
     alt: 'A packed lecture hall at the DevGrowth launch, most of the audience with their hands raised.',
-    club: 'devgrowth',
+    club: 'sangam',
   },
   'ai-stack': {
     slug: 'ai-stack',
@@ -37,13 +37,13 @@ export const PHOTOS: Record<string, Photo> = {
     slug: 'pyverse-hands',
     caption: 'PyVerse · hands on keyboards',
     alt: 'Students working at laptops during the PyVerse workshop.',
-    club: 'codeclub',
+    club: 'devgrowth',
   },
   'pyverse-group': {
     slug: 'pyverse-group',
     caption: 'PyVerse',
     alt: 'Group photograph of the PyVerse participants.',
-    club: 'codeclub',
+    club: 'devgrowth',
   },
   'battle-code': {
     slug: 'battle-code',
@@ -69,7 +69,7 @@ export const PHOTOS: Record<string, Photo> = {
     alt: "Winners holding their certificates at EKATVA '26.",
     club: 'smvdu',
   },
-  'sangam-launch': {
+  'sangam-launch!': {
     slug: 'sangam-launch',
     caption: 'SANGAM launch',
     alt: 'A speaker beside a screen showing the SANGAM logo at the community launch.',
