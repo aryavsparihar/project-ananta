@@ -131,9 +131,9 @@ export const PHOTOS: Record<string, Photo> = {
   },
   'codeclub-session': {
     slug: 'codeclub-session',
-    caption: 'A Code Club session in the lecture hall.',
-    alt: 'A packed lecture hall during a Code Club session, a speaker at the front.',
-    club: 'codeclub',
+    caption: 'A DevGrowth session in the lecture hall.',
+    alt: 'A packed lecture hall during a DevGrowth session, a speaker at the front.',
+    club: 'devgrowth',
   },
   'null-ethical-hacking': {
     slug: 'null-ethical-hacking',

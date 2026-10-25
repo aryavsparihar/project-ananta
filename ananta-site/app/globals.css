@@ -51,63 +51,6 @@
   font-style: normal;
 }
 
-/* --------------------------------------------------- serif font fallbacks */
-
-/*
- * next/font matches Instrument Serif against local('Times New Roman') only,
- * which Linux and Android do not have, so there the fallback was the generic
- * serif at its natural size and prose rewrapped when the real face landed
- * (0.025 CLS on /journey). These cover those platforms. app/fonts.ts lists
- * them straight after next's own fallback.
- *
- * Liberation Serif and Tinos are metric-compatible with Times New Roman; Noto
- * Serif is Android's serif. size-adjust is the real face's width over the
- * fallback's across the site's own prose, measured separately for the italic,
- * which runs ~6% wider. The real face is 0.99/0.31 ascent/descent, and
- * size-adjust scales the overrides, so each is that divided by size-adjust.
- */
-@font-face {
-  font-family: 'SerifFallbackTimes';
-  src: local('Liberation Serif'), local('LiberationSerif'), local('Tinos');
-  size-adjust: 83.17%;
-  ascent-override: 119.03%;
-  descent-override: 37.27%;
-  line-gap-override: 0%;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'SerifFallbackTimes';
-  src:
-    local('Liberation Serif Italic'), local('LiberationSerif-Italic'),
-    local('Tinos Italic');
-  size-adjust: 87.95%;
-  ascent-override: 112.56%;
-  descent-override: 35.25%;
-  line-gap-override: 0%;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'SerifFallbackNoto';
-  src: local('Noto Serif'), local('NotoSerif-Regular');
-  size-adjust: 70.51%;
-  ascent-override: 140.4%;
-  descent-override: 43.97%;
-  line-gap-override: 0%;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'SerifFallbackNoto';
-  src: local('Noto Serif Italic'), local('NotoSerif-Italic');
-  size-adjust: 76.64%;
-  ascent-override: 129.18%;
-  descent-override: 40.45%;
-  line-gap-override: 0%;
-  font-style: italic;
-}
-
 /* ---------------------------------------------------------------- tokens */
 
 :root {
@@ -176,11 +119,11 @@
    */
   --display-ch: 0.465em;
   /*
-   * The same for prose. Instrument Serif's "0" is 0.4597em; the Liberation Serif
+   * The same for prose. Newsreader's "0" is 0.5665em; the Liberation Serif
    * fallback's is wider, so a 54ch cap that clears a 371px column in the real
    * face bound it in the fallback and added a line until the swap.
    */
-  --serif-ch: 0.4597em;
+  --serif-ch: 0.5665em;
 
   /* Fluid scale. Minimum is the 360px value, so the primary layout is the
    * floor rather than a squeezed-down desktop. */

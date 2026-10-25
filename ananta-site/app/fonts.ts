@@ -5,7 +5,7 @@
  *
  * All four are SIL Open Font License. See assets/CREDITS.md.
  */
-import { Instrument_Serif, DM_Mono, Rozha_One } from 'next/font/google';
+import { Newsreader, DM_Mono, Rozha_One } from 'next/font/google';
 import localFont from 'next/font/local';
 
 /**
@@ -44,21 +44,13 @@ export const display = localFont({
 });
 
 /** Prose and pull lines, including the italic the poster uses for emphasis. */
-export const serif = Instrument_Serif({
+export const serif = Newsreader({
   subsets: ['latin'],
   weight: '400',
   style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-serif',
-  // next's generated fallback is Times New Roman only; the two metric-matched
-  // faces after it cover Linux and Android. See globals.css.
-  fallback: [
-    'SerifFallbackTimes',
-    'SerifFallbackNoto',
-    'Georgia',
-    'Times New Roman',
-    'serif',
-  ],
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
   adjustFontFallback: true,
   // See the note on `display` below: only the display face is preloaded.
   preload: false,

@@ -206,7 +206,13 @@ export const CLUBS: ClubStory[] = [
         source: 'smvdu-imc',
       },
     ],
-    photos: ['imc-2024', 'linux-git-26', 'avalanche-25', 'pyverse-hands', 'codeforge-25'],
+    photos: [
+      'codeclub-session',
+      'imc-2024',
+      'linux-git-26',
+      'pyverse-hands',
+      'codeforge-25',
+    ],
   },
   {
     id: 'codeclub',
@@ -232,7 +238,7 @@ export const CLUBS: ClubStory[] = [
         source: 'smvdu-codeclub',
       },
     ],
-    photos: ['codeclub-session', 'battle-code', 'ai-stack'],
+    photos: ['battle-code', 'ai-stack'],
   },
   {
     id: 'null',

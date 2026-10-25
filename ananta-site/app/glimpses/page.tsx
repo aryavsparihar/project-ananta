@@ -5,22 +5,13 @@ import { Cutout } from '@/components/Cutout';
 import { CircuitRule, Eyebrow, Strip } from '@/components/Marks';
 import styles from './page.module.css';
 import { EVENT } from '@/content/event';
-import { CLUBS, RECORDS, SOURCES, type SourceId } from '@/content/glimpses';
+import { CLUBS, RECORDS } from '@/content/glimpses';
 
 export const metadata: Metadata = {
   title: 'Glimpses',
   description: `What SANGAM, DevGrowth, Code Club, NULL and the AI & ML Club have already run and won at SMVDU, before ${EVENT.name}.`,
   alternates: { canonical: '/glimpses' },
 };
-
-/** Sources are numbered in the order they first appear on the page. */
-const ORDER: SourceId[] = [];
-const cite = (id: SourceId) => {
-  if (!ORDER.includes(id)) ORDER.push(id);
-  return ORDER.indexOf(id) + 1;
-};
-RECORDS.forEach((r) => cite(r.source));
-CLUBS.forEach((c) => c.events.forEach((e) => cite(e.source)));
 
 /** Deterministic tilts, so the paste-up does not reshuffle on every build. */
 const TILTS = [-1.8, 1.4, -2.4, 2.1, -1.2];
@@ -32,16 +23,6 @@ const CLUB_CLASS: Record<string, string> = {
   null: styles.null,
   aiml: styles.aiml,
 };
-
-function Cite({ id }: { id: SourceId }) {
-  const n = cite(id);
-  return (
-    <a href={`#source-${n}`} className={styles.cite}>
-      <span className="visually-hidden">Source </span>
-      {n}
-    </a>
-  );
-}
 
 export default function Glimpses() {
   return (
@@ -55,15 +36,15 @@ export default function Glimpses() {
             <em>there was this.</em>
           </>
         }
-        lead="Workshops, bootcamps, hackathons and wins from the five clubs behind the event. Every figure links to where it came from."
+        lead="Workshops, bootcamps, hackathons and wins from the five clubs behind the event."
       />
 
       {/* ------------------------------------------------------ the record */}
       <section className="section" aria-labelledby="record-title">
         <div className="shell">
-          <Eyebrow>On the record</Eyebrow>
+          <Eyebrow>So far</Eyebrow>
           <h2 id="record-title" className={styles.recordTitle}>
-            Numbers with <em>receipts.</em>
+            The year, <em>in numbers.</em>
           </h2>
 
           <ul className={styles.records}>
@@ -71,9 +52,7 @@ export default function Glimpses() {
               <li key={r.line} className={`${styles.record} ${CLUB_CLASS[r.club]}`}>
                 <p className={styles.figure}>{r.figure}</p>
                 <p className={styles.recordLine}>{r.line}</p>
-                <p className={styles.recordDetail}>
-                  {r.detail} <Cite id={r.source} />
-                </p>
+                <p className={styles.recordDetail}>{r.detail}</p>
               </li>
             ))}
           </ul>
@@ -108,9 +87,7 @@ export default function Glimpses() {
                 <ul className={styles.events}>
                   {club.events.map((e) => (
                     <li key={e.name} className={styles.event}>
-                      <span className={styles.eventName}>
-                        {e.name} <Cite id={e.source} />
-                      </span>
+                      <span className={styles.eventName}>{e.name}</span>
                       {(e.when || e.note) && (
                         <span className={styles.eventMeta}>
                           {e.when && <span className={styles.when}>{e.when}</span>}
@@ -138,38 +115,6 @@ export default function Glimpses() {
           </div>
         </section>
       ))}
-
-      {/* -------------------------------------------------------- sources */}
-      <section className={`section ${styles.sources}`} aria-labelledby="sources-title">
-        <div className="shell">
-          <Eyebrow>Sources</Eyebrow>
-          <h2 id="sources-title" className="visually-hidden">
-            Sources
-          </h2>
-          <ol className={styles.sourceList}>
-            {ORDER.map((id, i) => {
-              const s = SOURCES[id];
-              return (
-                <li key={id} id={`source-${i + 1}`}>
-                  {s.href ? (
-                    <a
-                      href={s.href}
-                      className={styles.sourceLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {s.label}
-                      <span className="visually-hidden"> (opens in a new tab)</span>
-                    </a>
-                  ) : (
-                    s.label
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      </section>
 
       {/* ---------------------------------------------------------- the ask */}
       <section className={`section ${styles.ask} on-dark`} aria-labelledby="ask-title">
