@@ -4,8 +4,9 @@
  * Static on purpose — no database, no Supabase. Editing this file is the whole
  * job of adding someone. See "Adding a team member" in the root README.
  *
- * Every entry below is a PLACEHOLDER. Real names go in only when Aryaveer adds
- * them. A production build refuses to run while any `TODO Name` remains:
+ * Faculty names, designations and order were confirmed by Aryaveer. Student
+ * names and roles are taken verbatim from the SANGAM deck (25 Sept 2026).
+ * A production build refuses to run while any `TODO Name` remains:
  * see scripts/check-team.mjs.
  */
 
@@ -20,6 +21,8 @@ export type Person = {
   group: TeamGroupId;
   club?: Club;
   year?: string;
+  /** Faculty only: the school, shown where a student's year would be. */
+  school?: string;
   /** Slug of the file in public/team/raw/<slug>.jpg. Omit for an initials card. */
   photo?: string;
   linkedin?: string;
@@ -39,8 +42,8 @@ export type TeamGroup = {
 export const GROUPS: TeamGroup[] = [
   {
     id: 'faculty',
-    title: 'Faculty coordinators',
-    blurb: 'School of CSE, SMVDU.',
+    title: 'Faculty',
+    blurb: 'SMVDU.',
     club: 'smvdu',
     featured: true,
   },
@@ -71,79 +74,129 @@ export const GROUPS: TeamGroup[] = [
 ];
 
 export const TEAM: Person[] = [
-  // --- Faculty coordinators ------------------------------------------------
-  { name: 'TODO Name', role: 'Faculty coordinator', group: 'faculty', club: 'smvdu' },
-  { name: 'TODO Name', role: 'Faculty coordinator', group: 'faculty', club: 'smvdu' },
+  // --- Faculty — this order is deliberate ------------------------------------
+  {
+    name: 'Dr. Ankush Raina',
+    role: 'President, Board of Professional Activities',
+    group: 'faculty',
+    club: 'smvdu',
+    school: 'SoME',
+  },
+  {
+    name: 'Dr. Sunanda',
+    role: 'Head of Department, SoCSE',
+    group: 'faculty',
+    club: 'smvdu',
+    school: 'SoCSE',
+  },
+  {
+    name: 'Dr. Sonika Gupta',
+    role: 'Faculty Coordinator',
+    group: 'faculty',
+    club: 'smvdu',
+    school: 'SoCSE',
+  },
+  {
+    name: 'Dr. Shashi Bhushan Kotwal',
+    role: 'Faculty Coordinator',
+    group: 'faculty',
+    club: 'smvdu',
+    school: 'SoECE',
+  },
+  {
+    name: 'Dr. Swastik Gupta',
+    role: 'Faculty Coordinator',
+    group: 'faculty',
+    club: 'smvdu',
+    school: 'SoECE',
+  },
 
   // --- Organising core (SANGAM) --------------------------------------------
   {
-    name: 'TODO Name',
+    name: 'Yash Srivastava',
     role: 'President',
     group: 'organising-core',
     club: 'sangam',
-    year: '4th year',
   },
   {
-    name: 'TODO Name',
-    role: 'Vice president',
+    name: 'Sachin Tripathi',
+    role: 'Vice President',
     group: 'organising-core',
     club: 'sangam',
-    year: '3rd year',
   },
   {
-    name: 'TODO Name',
-    role: 'Event lead',
+    name: 'Kartikey Saxena',
+    role: 'Vice President',
     group: 'organising-core',
     club: 'sangam',
-    year: '3rd year',
+  },
+  {
+    name: 'Shubham Saini',
+    role: 'Technical Lead',
+    group: 'organising-core',
+    club: 'sangam',
+  },
+  {
+    name: 'Maneesh Attri',
+    role: 'Finance Lead',
+    group: 'organising-core',
+    club: 'sangam',
+  },
+  { name: 'Mukti Porwal', role: 'PR Lead', group: 'organising-core', club: 'sangam' },
+  {
+    name: 'Naresh Kumar',
+    role: 'Management Lead',
+    group: 'organising-core',
+    club: 'sangam',
+  },
+  {
+    name: 'Akshit Kumar',
+    role: 'Co-Management Lead',
+    group: 'organising-core',
+    club: 'sangam',
   },
 
   // --- DevGrowth -----------------------------------------------------------
+  { name: 'Yash Srivastava', role: 'Coordinator', group: 'devgrowth', club: 'devgrowth' },
   {
-    name: 'TODO Name',
-    role: 'Lead',
+    name: 'Kartikey Saxena',
+    role: 'Co-Coordinator',
     group: 'devgrowth',
     club: 'devgrowth',
-    year: '3rd year',
   },
   {
-    name: 'TODO Name',
-    role: 'Technical lead',
+    name: 'Sachin Tripathi',
+    role: 'Co-Coordinator',
     group: 'devgrowth',
     club: 'devgrowth',
-    year: '3rd year',
   },
+  { name: 'Naresh Kumar', role: 'Core Team', group: 'devgrowth', club: 'devgrowth' },
+  { name: 'Mukti Porwal', role: 'Core Team', group: 'devgrowth', club: 'devgrowth' },
+  { name: 'Akshit Raj', role: 'Core Team', group: 'devgrowth', club: 'devgrowth' },
+  { name: 'Shubham Saini', role: 'Core Team', group: 'devgrowth', club: 'devgrowth' },
+  { name: 'Subham Prasad', role: 'Core Team', group: 'devgrowth', club: 'devgrowth' },
 
   // --- Code Club -----------------------------------------------------------
-  {
-    name: 'TODO Name',
-    role: 'Lead',
-    group: 'codeclub',
-    club: 'codeclub',
-    year: '3rd year',
-  },
-  {
-    name: 'TODO Name',
-    role: 'Contests lead',
-    group: 'codeclub',
-    club: 'codeclub',
-    year: '2nd year',
-  },
+  { name: 'Maneesh Kumar', role: 'Coordinator', group: 'codeclub', club: 'codeclub' },
+  { name: 'Tejas Singh', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
+  { name: 'Himanshu Soni', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
+  { name: 'Kushagra Pandey', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
+  { name: 'Nandita Gupta', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
+  { name: 'Shivali Virdi', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
+  { name: 'Manthan Gupta', role: 'Core Team', group: 'codeclub', club: 'codeclub' },
 
   // --- Website & design ----------------------------------------------------
   {
-    name: 'TODO Name',
+    name: 'Aryaveer Singh Parihar',
     role: 'Frontend & design',
     group: 'web',
     club: 'sangam',
-    year: '3rd year',
   },
   {
     name: 'TODO Name',
     role: 'Backend & admin',
     group: 'web',
     club: 'sangam',
-    year: '3rd year',
   },
 ];
 
@@ -155,12 +208,15 @@ export const peopleIn = (group: TeamGroupId) => TEAM.filter((p) => p.group === g
 
 export const placeholders = () => TEAM.filter(isPlaceholder);
 
-/** "Asha Rani" -> "AR". Placeholders say so rather than showing "TN". */
+/** Honorifics are not part of anyone's initials. */
+const TITLES = /^(dr|prof|mr|ms|mrs)\.?$/i;
+
+/** "Asha Rani" -> "AR", "Dr. Asha Rani" -> "AR". Placeholders say so rather than showing "TN". */
 export function initials(name: string): string {
   if (isPlaceholder({ name } as Person)) return 'TBC';
   return name
     .split(/\s+/)
-    .filter(Boolean)
+    .filter((w) => w && !TITLES.test(w))
     .slice(0, 2)
     .map((w) => w[0]?.toUpperCase() ?? '')
     .join('');

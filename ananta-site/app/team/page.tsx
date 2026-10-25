@@ -8,7 +8,7 @@ import { GROUPS, peopleIn, placeholders } from '@/content/team';
 
 export const metadata: Metadata = {
   title: 'Team',
-  description: `The faculty coordinators, organising core and club leads running ${EVENT.name} at the ${EVENT.school}.`,
+  description: `The faculty, organising core and club leads running ${EVENT.name} at the ${EVENT.school}.`,
   alternates: { canonical: '/team' },
 };
 
@@ -34,15 +34,15 @@ export default function Team() {
             <em>running it.</em>
           </>
         }
-        lead={`${PRESENTED_BY}, with the School of CSE. Faculty coordinators, the organising core and the club leads.`}
+        lead={`${PRESENTED_BY}, with the School of CSE. Faculty, the organising core and the club leads.`}
       />
 
       {pending > 0 && (
         <div className="shell">
           <p className={styles.notice} role="note">
-            <strong>Placeholder board.</strong> {pending} entries are still{' '}
-            <code>TODO Name</code> — the layout is real, the people are not. A production
-            build refuses to run until they are replaced.
+            <strong>Not final.</strong> {pending}{' '}
+            {pending === 1 ? 'entry is' : 'entries are'} still <code>TODO Name</code>. A
+            production build refuses to run until they are replaced.
           </p>
         </div>
       )}

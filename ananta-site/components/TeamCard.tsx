@@ -97,6 +97,7 @@ export function TeamCard({
         <span className={styles.tags}>
           {person.club && <span className={styles.tag}>{CLUB_LABEL[person.club]}</span>}
           {person.year && <span className={styles.year}>{person.year}</span>}
+          {person.school && <span className={styles.year}>{person.school}</span>}
         </span>
 
         {(person.linkedin || person.github) && (
