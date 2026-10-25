@@ -218,7 +218,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  /* Also set on body (see there). iOS Safari only honours it on html. */
+  /* Also set on body (see there); iOS Safari only honours it on html. */
   overflow-x: clip;
 }
 
@@ -265,7 +265,7 @@ body {
   min-height: 100dvh;
   /* The paste-up tilts photos and gives them torn-edge drop shadows; at 360px
      a shadow can overhang the gutter by a few px. clip, not hidden: it adds no
-     scroll container, so the sticky nav keeps working. */
+     scroll container, so position: sticky still works anywhere it is used. */
   overflow-x: clip;
   background-color: var(--c-paper);
   color: var(--c-ink);
