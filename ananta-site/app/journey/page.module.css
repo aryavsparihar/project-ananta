@@ -8,7 +8,7 @@
 }
 
 .logKey {
-  max-width: 54ch;
+  max-width: calc(54 * var(--serif-ch));
   color: var(--c-muted);
 }
 
@@ -141,7 +141,7 @@
 }
 
 .summary {
-  max-width: 50ch;
+  max-width: calc(50 * var(--serif-ch));
   margin-bottom: var(--s-4);
 }
 
@@ -154,7 +154,7 @@
   margin: 0 0 var(--s-4);
   padding: 0;
   list-style: none;
-  max-width: 52ch;
+  max-width: calc(52 * var(--serif-ch));
 }
 
 .criteria li {
@@ -214,7 +214,7 @@
 }
 
 .beforeNote {
-  max-width: 50ch;
+  max-width: calc(50 * var(--serif-ch));
   margin-bottom: var(--s-5);
   color: var(--c-muted);
 }

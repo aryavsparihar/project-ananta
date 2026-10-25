@@ -23,7 +23,7 @@
 }
 
 .body {
-  max-width: 42ch;
+  max-width: calc(42 * var(--serif-ch));
   margin-bottom: var(--s-6);
   color: var(--c-muted);
 }

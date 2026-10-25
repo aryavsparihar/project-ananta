@@ -33,7 +33,7 @@
 }
 
 .body {
-  max-width: 56ch;
+  max-width: calc(56 * var(--serif-ch));
   color: var(--c-muted);
 }
 
@@ -51,7 +51,7 @@
 .auditTitle {
   font-size: var(--t-h2);
   margin-bottom: var(--s-5);
-  max-width: 14ch;
+  max-width: calc(14 * var(--display-ch));
 }
 
 .auditBody {
@@ -112,7 +112,7 @@
 }
 
 .unclear {
-  max-width: 50ch;
+  max-width: calc(50 * var(--serif-ch));
   color: var(--c-muted);
 }
 

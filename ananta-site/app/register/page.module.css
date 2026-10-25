@@ -45,7 +45,7 @@
   border-left: 3px solid var(--c-saffron);
   background: var(--c-paper-deep);
   font-size: var(--t-sm);
-  max-width: 44ch;
+  max-width: calc(44 * var(--serif-ch));
 }
 
 /* --------------------------------------------------------- before you */
@@ -88,7 +88,7 @@
 }
 
 .team {
-  max-width: 48ch;
+  max-width: calc(48 * var(--serif-ch));
   color: var(--c-muted);
 }
 
@@ -109,19 +109,19 @@
 
 .closingTitle {
   font-size: var(--t-h2);
-  max-width: 16ch;
+  max-width: calc(16 * var(--display-ch));
   margin-bottom: var(--s-4);
 }
 
 .closingBody {
-  max-width: 44ch;
+  max-width: calc(44 * var(--serif-ch));
   margin-bottom: var(--s-5);
 }
 
 .fineprint {
   font-size: var(--t-sm);
   color: var(--c-muted);
-  max-width: 48ch;
+  max-width: calc(48 * var(--serif-ch));
 }
 
 .closingPhoto {

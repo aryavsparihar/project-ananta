@@ -11,8 +11,8 @@
 export const PHOTOS = [
   // slug                  source file                            tone      aspect
   {
-    slug: 'devgrowth-launch',
-    src: '03_devgrowth_launch_hands_up.jpg',
+    slug: 'sangam-launch',
+    src: '03_sangam_launch_hands_up.jpg',
     tone: 'ink',
     aspect: 4 / 3,
   },
@@ -28,7 +28,12 @@ export const PHOTOS = [
     tone: 'ink',
     aspect: 4 / 3,
   },
-  { slug: 'sangam-launch', src: '08_sangam_on_screen.jpg', tone: 'navy', aspect: 3 / 4 },
+  {
+    slug: 'sangam-launch-stage',
+    src: '08_sangam_on_screen.jpg',
+    tone: 'navy',
+    aspect: 3 / 4,
+  },
   { slug: 'battle-code', src: '10_codeclub_team.jpg', tone: 'saffron', aspect: 4 / 3 },
   { slug: 'pyverse-group', src: '11_pyverse_group.jpg', tone: 'ink', aspect: 4 / 3 },
   { slug: 'sih-demo', src: '12_hackathon_demo.jpg', tone: 'navy', aspect: 3 / 2 },

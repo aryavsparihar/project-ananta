@@ -34,7 +34,7 @@ export function Hero() {
 
       <div className={styles.collage}>
         <Cutout
-          slug="devgrowth-launch"
+          slug="sangam-launch"
           sizes="(min-width: 64rem) 46vw, (min-width: 48rem) 60vw, 88vw"
           rotate={-1.5}
           tape={['tl', 'br']}
@@ -51,7 +51,7 @@ export function Hero() {
           className={`${styles.photo} ${styles.photoLeft}`}
         />
         <Cutout
-          slug="sangam-launch"
+          slug="sangam-launch-stage"
           sizes="(min-width: 64rem) 20vw, (min-width: 48rem) 28vw, 42vw"
           rotate={-2.5}
           tape={['bl']}

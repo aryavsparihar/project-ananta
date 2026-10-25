@@ -10,12 +10,12 @@
 
 .title {
   font-size: var(--t-h1);
-  max-width: 16ch;
+  max-width: calc(16 * var(--display-ch));
 }
 
 .lead {
   margin-top: var(--s-6);
-  max-width: 38ch;
+  max-width: calc(38 * var(--serif-ch));
   color: var(--c-muted);
 }
 
@@ -25,6 +25,6 @@
   }
 
   .lead {
-    max-width: 46ch;
+    max-width: calc(46 * var(--serif-ch));
   }
 }
