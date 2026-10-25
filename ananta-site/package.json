@@ -35,7 +35,7 @@
     "eslint-config-next": "^15.5.28",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.9.10",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.5",
     "simple-git-hooks": "^2.14.0",
     "subset-font": "^2.4.0",
     "typescript": "^5.8.0"
