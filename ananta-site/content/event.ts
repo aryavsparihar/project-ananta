@@ -202,9 +202,16 @@ export const TEAM_RULES = [
  * replacement form needs no code change. public/register-qr.svg encodes this
  * same URL: regenerate it if the form changes (see the root README).
  */
-export const REGISTRATION_URL =
-  process.env.NEXT_PUBLIC_REGISTRATION_URL ||
+const FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSeDYTTzawslLVx6se_leJ91Y6uZSzkkuN5uyFLag9rwdoCPlQ/viewform';
+
+// The old .env.example shipped a placeholder for this variable, so an older
+// .env.local (or a host dashboard) can still carry it. Treat that as unset
+// rather than publishing a dead button.
+const envUrl = process.env.NEXT_PUBLIC_REGISTRATION_URL?.trim();
+
+export const REGISTRATION_URL =
+  envUrl && !envUrl.includes('REPLACE_WITH') ? envUrl : FORM_URL;
 
 /** "SANGAM × DevGrowth × Code Club" */
 export const PRESENTED_BY = EVENT.presenters.join(' × ');
