@@ -215,4 +215,5 @@ export const REGISTRATION_URL =
 /** "SANGAM × DevGrowth × Code Club" */
 export const PRESENTED_BY = EVENT.presenters.join(' × ');
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ananta.smvdu.ac.in';
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://project-ananta-zvut.vercel.app';
