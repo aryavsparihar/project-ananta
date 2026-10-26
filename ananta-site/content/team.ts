@@ -168,6 +168,13 @@ export const TEAM: Person[] = [
     group: 'organising-core',
     club: 'devgrowth',
   },
+  {
+    name: 'Aryaveer Singh Parihar',
+    photo: 'aryaveer-singh-parihar',
+    role: 'Outreach and Alumni Lead',
+    group: 'organising-core',
+    club: 'sangam',
+  },
 
   // --- DevGrowth -----------------------------------------------------------
   {

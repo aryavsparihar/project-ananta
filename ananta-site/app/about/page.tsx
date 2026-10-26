@@ -81,8 +81,8 @@ export default function About() {
               </p>
               <p>
                 Teams work through problem definition, architecture, UI/UX, development
-                and deployment, with a marked review at each stage. Mixed-year teams, a
-                faculty mentor, and a 4th-year student mentor who has done it before.
+                and deployment, with a marked review at each stage. Teams mix years, and
+                each has a 4th-year student mentor who has done it before.
               </p>
               <p>
                 The finish line is not a slide deck. It is a live product, a documented
@@ -99,7 +99,6 @@ export default function About() {
                   A share of {PRIZES.poolLabel} if you place:{' '}
                   {PRIZES.places.map((p) => p.amount).join(' / ')}
                 </li>
-                <li>One of {PRIZES.certificates} certificates</li>
               </ul>
             </aside>
           </div>

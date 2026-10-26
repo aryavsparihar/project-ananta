@@ -69,8 +69,7 @@ export default function Home() {
           </dl>
 
           <p className={styles.factNote}>
-            {PRIZES.places.map((p) => `${p.place} ${p.amount}`).join(' · ')} ·{' '}
-            {PRIZES.certificates} certificates
+            {PRIZES.places.map((p) => `${p.place} ${p.amount}`).join(' · ')}
           </p>
         </div>
       </section>

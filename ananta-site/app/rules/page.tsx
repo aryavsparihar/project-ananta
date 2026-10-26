@@ -101,9 +101,7 @@ export default function Rules() {
             ))}
           </dl>
 
-          <p className={styles.certs}>
-            {PRIZES.poolLabel} total, plus {PRIZES.certificates} certificates.
-          </p>
+          <p className={styles.certs}>{PRIZES.poolLabel} total.</p>
 
           <p className={styles.strips}>
             <Strip tone="saffron" rotate={-1.6}>
