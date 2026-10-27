@@ -3,63 +3,74 @@ import './globals.css';
 import { fontClassNames } from './fonts';
 import { SiteNav } from '@/components/SiteNav';
 import { SiteFooter } from '@/components/SiteFooter';
-import { EVENT, PRESENTED_BY, SITE_URL } from '@/content/event';
+import { AnnouncementBar } from '@/components/AnnouncementBar';
+import { ImageRetry } from '@/components/ImageRetry';
+import { SITE_URL } from '@/content/event';
+import { presentedBy } from '@/lib/content-sections';
+import { getSiteContent } from '@/lib/site-content';
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: `${EVENT.name} · ${EVENT.tagline}`,
-    template: `%s · ${EVENT.name}`,
-  },
-  description: `${EVENT.blurb} ${EVENT.displayRange}, ${EVENT.school}.`,
-  applicationName: EVENT.name,
-  keywords: [
-    'ANANTA',
-    'hackathon',
-    'SMVDU',
-    'SANGAM',
-    'DevGrowth',
-    'Code Club',
-    'School of CSE',
-    'Katra',
-  ],
-  authors: [{ name: PRESENTED_BY }],
-  openGraph: {
-    type: 'website',
-    siteName: EVENT.name,
-    locale: 'en_IN',
-    url: SITE_URL,
-    title: `${EVENT.name} · ${EVENT.tagline}`,
-    description: `${EVENT.blurb} ${EVENT.displayRange}.`,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: `${EVENT.name} · ${EVENT.tagline}`,
-    description: EVENT.blurb,
-  },
-  alternates: { canonical: '/' },
-  robots: { index: true, follow: true },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { event } = await getSiteContent();
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: `${event.name} · ${event.tagline}`,
+      template: `%s · ${event.name}`,
+    },
+    description: `${event.blurb} ${event.displayRange}, ${event.school}.`,
+    applicationName: event.name,
+    keywords: [
+      'ANANTA',
+      'hackathon',
+      'SMVDU',
+      'SANGAM',
+      'DevGrowth',
+      'Code Club',
+      'School of CSE',
+      'Katra',
+    ],
+    authors: [{ name: presentedBy(event) }],
+    openGraph: {
+      type: 'website',
+      siteName: event.name,
+      locale: 'en_IN',
+      url: SITE_URL,
+      title: `${event.name} · ${event.tagline}`,
+      description: `${event.blurb} ${event.displayRange}.`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${event.name} · ${event.tagline}`,
+      description: event.blurb,
+    },
+    alternates: { canonical: '/' },
+    robots: { index: true, follow: true },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: '#f7f0e3',
   colorScheme: 'light',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const { event, contact, announcement } = await getSiteContent();
+
   return (
     <html lang="en-IN" className={fontClassNames}>
       <body>
         <a className="skip" href="#main">
           Skip to content
         </a>
+        <AnnouncementBar announcement={announcement} />
         <SiteNav />
         <main id="main" tabIndex={-1}>
           {children}
         </main>
-        <SiteFooter />
+        <SiteFooter event={event} contact={contact} />
+        <ImageRetry />
       </body>
     </html>
   );

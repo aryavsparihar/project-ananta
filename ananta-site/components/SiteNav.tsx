@@ -11,13 +11,28 @@ const LINKS = [
   { href: '/glimpses', label: 'Glimpses' },
   { href: '/rules', label: 'Rules' },
   { href: '/team', label: 'Team' },
+  { href: '/problems', label: 'Problems' },
+  { href: '/contest', label: 'Contest' },
 ] as const;
+
+/**
+ * Whether a Supabase session cookie is present. Only decides which link to
+ * show; the pages behind it verify the session properly. Reading the cookie
+ * keeps the Supabase client out of every page's bundle.
+ */
+const hasSessionCookie = () =>
+  /(?:^|;\s*)sb-[^=]+-auth-token(?:\.\d+)?=/.test(document.cookie);
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const pathname = usePathname();
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const [signedIn, setSignedIn] = useState(false);
+
+  // After hydration, and again on every navigation (sign-in and sign-out
+  // both end in one).
+  useEffect(() => setSignedIn(hasSessionCookie()), [pathname]);
 
   // Close on route change, so the panel never survives a navigation.
   useEffect(() => setOpen(false), [pathname]);
@@ -71,8 +86,17 @@ export function SiteNav() {
               </Link>
             );
           })}
-          <Link href="/register" className={styles.cta}>
-            Enter ANANTA
+          <Link
+            href={signedIn ? '/account' : '/login'}
+            className={styles.link}
+            aria-current={
+              pathname === '/account' || pathname === '/login' ? 'page' : undefined
+            }
+          >
+            {signedIn ? 'My account' : 'Sign in'}
+          </Link>
+          <Link href={signedIn ? '/register/form' : '/register'} className={styles.cta}>
+            {signedIn ? 'My entry' : 'Enter ANANTA'}
           </Link>
         </nav>
       </div>

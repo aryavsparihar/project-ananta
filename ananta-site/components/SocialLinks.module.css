@@ -1,0 +1,35 @@
+/*
+ * Three small marks in the caption, inked like the rest of the label. The hit
+ * area is 28px square even though the glyph is 15px, so they stay tappable.
+ */
+.links {
+  display: flex;
+  gap: var(--s-1);
+  margin-top: var(--s-2);
+  /* Optically align the first glyph with the text above. */
+  margin-left: -6px;
+}
+
+.link {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--c-muted);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.link svg {
+  width: 15px;
+  height: 15px;
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--c-green);
+}
+
+:global(.on-dark) .link {
+  color: color-mix(in srgb, var(--c-paper) 72%, transparent);
+}

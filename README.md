@@ -165,6 +165,19 @@ club's colour.
 
 ---
 
+## Participant portal and admin
+
+Students create an account with their university email, confirm it, and fill
+the registration form at /register/form. /problems and /contest are for
+signed-in accounts. Organisers edit content, teams and problem statements from
+/admin. Setup on Supabase (migration, SMTP, email templates) is in
+[`docs/participant-portal.md`](docs/participant-portal.md).
+
+After `npm run photos`, run `npm run images` to cut the responsive sizes; the
+build refuses to run if any are missing.
+
+---
+
 ## Repo maintenance
 
 [`docs/history-cleanup.md`](docs/history-cleanup.md) has the `git filter-repo`

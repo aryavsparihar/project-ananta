@@ -47,7 +47,7 @@
 
 .summary {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -79,6 +79,7 @@
 
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   gap: 1rem;
   padding: 1.2rem;
@@ -89,7 +90,7 @@
 .filter {
   display: grid;
   flex: 1;
-  min-width: 0;
+  min-width: min(11rem, 100%);
   gap: 0.45rem;
 }
 
@@ -307,6 +308,83 @@
   color: #69645c;
   font-size: 0.78rem;
   line-height: 1.6;
+}
+
+.headerActions,
+.rowActions,
+.badges,
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.rowActions {
+  flex-direction: column;
+}
+
+.badges {
+  margin-top: 0.4rem;
+}
+
+.badge {
+  padding: 0.1rem 0.45rem;
+  border: 1px solid #cfc6b7;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badgeWarn {
+  border-color: #c85f00;
+  background: #fde7cf;
+}
+
+.facts {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  color: #69645c;
+  font-size: 0.82rem;
+}
+
+.skills {
+  color: #201e1a;
+}
+
+.links a,
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #007830;
+  font: inherit;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.deleteButton {
+  min-height: 32px;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid #b3261e;
+  border-radius: 0;
+  color: #8c1d18;
+  background: transparent;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.deleteButton:hover:not(:disabled) {
+  color: #fff;
+  background: #b3261e;
+}
+
+.deleteButton:focus-visible,
+.linkButton:focus-visible {
+  outline: 2px solid #a32c21;
+  outline-offset: 2px;
 }
 
 @media (max-width: 720px) {

@@ -1,7 +1,10 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/content/event';
 
-/** Every public page. /admin is excluded deliberately — it is not for visitors. */
+/**
+ * Every public page. /admin and the signed-in pages (/account, /register/form,
+ * /contest, /problems) are left out: a crawler would only reach the sign-in.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     { path: '', priority: 1 },
@@ -11,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/rules', priority: 0.7 },
     { path: '/register', priority: 0.9 },
     { path: '/team', priority: 0.6 },
+    { path: '/signup', priority: 0.6 },
   ];
 
   const lastModified = new Date();

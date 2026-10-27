@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './SiteFooter.module.css';
 import { CircuitRule } from './Marks';
-import { EVENT, PRESENTED_BY } from '@/content/event';
+import { presentedBy, type SiteContent } from '@/lib/content-sections';
 
 const LOGOS = [
   { src: '/logos/sangam.png', alt: 'SANGAM', w: 954, h: 960 },
@@ -16,7 +16,13 @@ const LOGOS = [
  * attribution in mono. Deliberately at the foot of the page rather than a
  * letterhead row across the top.
  */
-export function SiteFooter() {
+export function SiteFooter({
+  event,
+  contact,
+}: {
+  event: SiteContent['event'];
+  contact: SiteContent['contact'];
+}) {
   return (
     <footer className={`${styles.footer} on-dark`}>
       <div className={styles.inner}>
@@ -25,10 +31,10 @@ export function SiteFooter() {
         <div className={styles.grid}>
           <div>
             <p className={styles.mark}>
-              {EVENT.name} <span className="deva">{EVENT.devanagari}</span>
+              {event.name} <span className="deva">{event.devanagari}</span>
             </p>
             <p className={styles.meaning}>
-              <em>{EVENT.meaning}</em> · {EVENT.displayRange}
+              <em>{event.meaning}</em> · {event.displayRange}
             </p>
           </div>
 
@@ -48,15 +54,20 @@ export function SiteFooter() {
           </ul>
         </div>
 
+        <p className={styles.contact}>
+          <span className="meta">Write to the organisers</span>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        </p>
+
         <p className={styles.credit}>
-          {PRESENTED_BY} · {EVENT.school}
+          {presentedBy(event)} · {event.school}
           <br />
-          {EVENT.association}
+          {event.association}
         </p>
 
         <div className={styles.base}>
           <span className="meta">
-            © {EVENT.year} {EVENT.name}
+            © {event.year} {event.name}
           </span>
           <Link href="/admin" className={styles.admin}>
             Organiser sign-in

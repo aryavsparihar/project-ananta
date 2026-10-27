@@ -3,14 +3,18 @@ import { PageHead } from '@/components/PageHead';
 import { TeamCard } from '@/components/TeamCard';
 import { CircuitRule } from '@/components/Marks';
 import styles from './page.module.css';
-import { EVENT, PRESENTED_BY } from '@/content/event';
-import { GROUPS, peopleIn, placeholders } from '@/content/team';
+import { isPlaceholder } from '@/content/team';
+import { presentedBy } from '@/lib/content-sections';
+import { getSiteContent } from '@/lib/site-content';
 
-export const metadata: Metadata = {
-  title: 'Team',
-  description: `The faculty, organising core and club leads running ${EVENT.name} at the ${EVENT.school}.`,
-  alternates: { canonical: '/team' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { event } = await getSiteContent();
+  return {
+    title: 'Team',
+    description: `The faculty, organising core and club leads running ${event.name} at the ${event.school}.`,
+    alternates: { canonical: '/team' },
+  };
+}
 
 /**
  * Deterministic tilt, so a card does not jump to a new angle on every build.
@@ -20,8 +24,12 @@ export const metadata: Metadata = {
 const TILTS = [-2.2, 1.6, -1.1, 2.4, -1.8, 1.2, -2.6, 0.9];
 const tilt = (i: number) => TILTS[i % TILTS.length];
 
-export default function Team() {
-  const pending = placeholders().length;
+export default async function Team() {
+  const { event, team } = await getSiteContent();
+  const groups = team.groups;
+  const peopleIn = (id: string) => team.people.filter((p) => p.group === id);
+  const pending = team.people.filter(isPlaceholder).length;
+  const credits = presentedBy(event);
 
   return (
     <>
@@ -34,7 +42,7 @@ export default function Team() {
             <em>running it.</em>
           </>
         }
-        lead={`${PRESENTED_BY}, with the School of CSE. Faculty, the organising core and the club leads.`}
+        lead={`${credits}, with the School of CSE. Faculty, the organising core and the club leads.`}
       />
 
       {pending > 0 && (
@@ -47,7 +55,7 @@ export default function Team() {
         </div>
       )}
 
-      {GROUPS.map((group, gi) => {
+      {groups.map((group, gi) => {
         const people = peopleIn(group.id);
         if (people.length === 0) return null;
 
@@ -80,7 +88,7 @@ export default function Team() {
               </ul>
             </div>
 
-            {gi < GROUPS.length - 1 && (
+            {gi < groups.length - 1 && (
               <div className="shell">
                 <CircuitRule flip={gi % 2 === 1} className={styles.divider} />
               </div>
@@ -95,7 +103,7 @@ export default function Team() {
             Run it with us next year.
           </h2>
           <p className={styles.joinBody}>
-            {PRESENTED_BY} take on new organisers every year, usually from the people who
+            {credits} take on new organisers every year, usually from the people who
             competed the year before.
           </p>
         </div>

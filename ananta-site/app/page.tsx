@@ -4,18 +4,23 @@ import { Hero } from '@/components/Hero';
 import { Cutout } from '@/components/Cutout';
 import { Strip, CircuitRule, Eyebrow } from '@/components/Marks';
 import styles from './page.module.css';
-import { EVENT, ROUNDS, PRIZES, REGISTRATION } from '@/content/event';
+import { getSiteContent } from '@/lib/site-content';
 
-export const metadata: Metadata = {
-  title: `${EVENT.name} · ${EVENT.tagline}`,
-  description: `${EVENT.blurb} ${EVENT.displayRange}, ${EVENT.school}. Registration ${REGISTRATION.displayRange}.`,
-  alternates: { canonical: '/' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { event, registration } = await getSiteContent();
+  return {
+    title: `${event.name} · ${event.tagline}`,
+    description: `${event.blurb} ${event.displayRange}, ${event.school}. Registration ${registration.displayRange}.`,
+    alternates: { canonical: '/' },
+  };
+}
 
-export default function Home() {
+export default async function Home() {
+  const { event, rounds, prizes, registration } = await getSiteContent();
+
   return (
     <>
-      <Hero />
+      <Hero event={event} registration={registration} prizes={prizes} />
 
       {/* ---------------------------------------------------- the point */}
       <section className="section" aria-labelledby="point-title">
@@ -33,7 +38,7 @@ export default function Home() {
 
             <div className={`prose ${styles.pointBody}`}>
               <p>
-                {EVENT.name} is built around the part that usually gets skipped:
+                {event.name} is built around the part that usually gets skipped:
                 finishing. Pick a real problem, plan the system, design the experience,
                 build it, deploy it, and stand behind what you made.
               </p>
@@ -43,7 +48,7 @@ export default function Home() {
               </p>
               <p>
                 <Link href="/about" className="link">
-                  Why {EVENT.name} exists
+                  Why {event.name} exists
                 </Link>
               </p>
             </div>
@@ -64,12 +69,12 @@ export default function Home() {
             </div>
             <div className={styles.fact}>
               <dt className="meta">Prize pool</dt>
-              <dd>{PRIZES.poolLabel}</dd>
+              <dd>{prizes.poolLabel}</dd>
             </div>
           </dl>
 
           <p className={styles.factNote}>
-            {PRIZES.places.map((p) => `${p.place} ${p.amount}`).join(' · ')}
+            {prizes.places.map((p) => `${p.place} ${p.amount}`).join(' · ')}
           </p>
         </div>
       </section>
@@ -93,7 +98,7 @@ export default function Home() {
           </div>
 
           <ol className={styles.rounds}>
-            {ROUNDS.map((round) => (
+            {rounds.map((round) => (
               <li
                 key={round.id}
                 className={`${styles.round} ${round.marks === null ? styles.window : ''}`}
@@ -181,8 +186,8 @@ export default function Home() {
           </h2>
 
           <p className={styles.askLine}>
-            Registration closes {REGISTRATION.closesDisplay}. Teams announced by{' '}
-            {REGISTRATION.teamsAnnouncedBy}.
+            Registration closes {registration.closesDisplay}. Teams announced by{' '}
+            {registration.teamsAnnouncedBy}.
           </p>
 
           <div className={styles.askActions}>
@@ -190,7 +195,7 @@ export default function Home() {
               Registration details
             </Link>
             <Strip tone="saffron" rotate={-1.5} className={styles.askStrip}>
-              {REGISTRATION.displayRange}
+              {registration.displayRange}
             </Strip>
           </div>
         </div>

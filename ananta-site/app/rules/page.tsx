@@ -4,15 +4,20 @@ import { PageHead } from '@/components/PageHead';
 import { Cutout } from '@/components/Cutout';
 import { Strip } from '@/components/Marks';
 import styles from './page.module.css';
-import { EVENT, TEAM_RULES, PRIZES } from '@/content/event';
+import { getSiteContent } from '@/lib/site-content';
 
-export const metadata: Metadata = {
-  title: 'Rules',
-  description: `Who is on an ${EVENT.name} team, what counts as original work, and what has to be deployed by the final.`,
-  alternates: { canonical: '/rules' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { event } = await getSiteContent();
+  return {
+    title: 'Rules',
+    description: `Who is on an ${event.name} team, what counts as original work, and what has to be deployed by the final.`,
+    alternates: { canonical: '/rules' },
+  };
+}
 
-export default function Rules() {
+export default async function Rules() {
+  const { team_rules: teamRules, prizes } = await getSiteContent();
+
   return (
     <>
       <PageHead
@@ -34,7 +39,7 @@ export default function Rules() {
           </h2>
 
           <ol className={styles.list}>
-            {TEAM_RULES.map((rule) => (
+            {teamRules.map((rule) => (
               <li key={rule.n} className={styles.rule}>
                 <span className={styles.n} aria-hidden="true">
                   {rule.n}
@@ -93,7 +98,7 @@ export default function Rules() {
           </h2>
 
           <dl className={styles.prizeList}>
-            {PRIZES.places.map((p) => (
+            {prizes.places.map((p) => (
               <div key={p.place} className={styles.prize}>
                 <dt className="meta">{p.place}</dt>
                 <dd>{p.amount}</dd>
@@ -101,7 +106,7 @@ export default function Rules() {
             ))}
           </dl>
 
-          <p className={styles.certs}>{PRIZES.poolLabel} total.</p>
+          <p className={styles.certs}>{prizes.poolLabel} total.</p>
 
           <p className={styles.strips}>
             <Strip tone="saffron" rotate={-1.6}>

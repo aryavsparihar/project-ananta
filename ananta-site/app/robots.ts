@@ -6,8 +6,17 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      // The organiser area is behind auth; there is no reason to crawl it.
-      disallow: ['/admin', '/admin/'],
+      // Behind auth, so a crawler would only ever see a sign-in redirect.
+      disallow: [
+        '/admin',
+        '/admin/',
+        '/account',
+        '/register/form',
+        '/contest',
+        '/problems',
+        '/auth/',
+        '/api/',
+      ],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

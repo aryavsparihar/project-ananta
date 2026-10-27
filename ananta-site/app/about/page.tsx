@@ -5,15 +5,21 @@ import { Stamp } from '@/components/Stamp';
 import { Strip, CircuitRule, Eyebrow } from '@/components/Marks';
 import { PageHead } from '@/components/PageHead';
 import styles from './page.module.css';
-import { EVENT, PRESENTED_BY, PRIZES } from '@/content/event';
+import { getSiteContent } from '@/lib/site-content';
+import { presentedBy } from '@/lib/content-sections';
 
-export const metadata: Metadata = {
-  title: 'The idea',
-  description: `Why ${EVENT.name} runs for six weeks instead of a weekend: one live product per team, built in the open with an audited git history.`,
-  alternates: { canonical: '/about' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { event } = await getSiteContent();
+  return {
+    title: 'The idea',
+    description: `Why ${event.name} runs for six weeks instead of a weekend: one live product per team, built in the open with an audited git history.`,
+    alternates: { canonical: '/about' },
+  };
+}
 
-export default function About() {
+export default async function About() {
+  const { event, prizes } = await getSiteContent();
+
   return (
     <>
       <PageHead
@@ -34,14 +40,14 @@ export default function About() {
             <div>
               <Eyebrow>The name</Eyebrow>
               <h2 id="meaning-title" className={styles.devaTitle}>
-                <span className="deva">{EVENT.devanagari}</span>
+                <span className="deva">{event.devanagari}</span>
                 <span className={styles.meaningWord}>
-                  <em>{EVENT.meaning}</em>
+                  <em>{event.meaning}</em>
                 </span>
               </h2>
               <div className={`prose ${styles.meaningBody}`}>
                 <p>
-                  {EVENT.name} means endless. Not endless work. Endless in the sense that
+                  {event.name} means endless. Not endless work. Endless in the sense that
                   a product you ship does not stop when the event does. It stays online,
                   it keeps a commit history, and it is still yours in March.
                 </p>
@@ -76,8 +82,8 @@ export default function About() {
           <div className={styles.whatGrid}>
             <div className="prose">
               <p>
-                {EVENT.name} is a six-week, project-based hackathon run by {PRESENTED_BY}{' '}
-                at the {EVENT.school}, {EVENT.association}.
+                {event.name} is a six-week, project-based hackathon run by{' '}
+                {presentedBy(event)} at the {event.school}, {event.association}.
               </p>
               <p>
                 Teams work through problem definition, architecture, UI/UX, development
@@ -96,8 +102,8 @@ export default function About() {
                 <li>A deployed product with a public URL</li>
                 <li>A git history that shows how it was built</li>
                 <li>
-                  A share of {PRIZES.poolLabel} if you place:{' '}
-                  {PRIZES.places.map((p) => p.amount).join(' / ')}
+                  A share of {prizes.poolLabel} if you place:{' '}
+                  {prizes.places.map((p) => p.amount).join(' / ')}
                 </li>
               </ul>
             </aside>

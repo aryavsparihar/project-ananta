@@ -11,13 +11,14 @@
     "format": "prettier --write .",
     "format:check": "node scripts/check-format.mjs",
     "typecheck": "tsc --noEmit",
-    "prebuild": "node scripts/check-env-safety.mjs && node scripts/check-team.mjs",
+    "prebuild": "node scripts/check-env-safety.mjs && node scripts/check-team.mjs && node scripts/build-image-sizes.mjs --check",
     "prepare": "simple-git-hooks || true",
     "photos": "node scripts/process-photos.mjs",
     "team:photos": "node scripts/process-team-photos.mjs",
+    "images": "node scripts/build-image-sizes.mjs",
     "contrast": "node scripts/contrast.mjs",
     "textures": "node scripts/process-textures.mjs",
-    "assets": "npm run textures && npm run photos",
+    "assets": "npm run textures && npm run photos && npm run images",
     "fonts": "node scripts/subset-display-font.mjs"
   },
   "dependencies": {

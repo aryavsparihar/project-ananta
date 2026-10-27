@@ -1,4 +1,5 @@
 import styles from './TeamCard.module.css';
+import { SocialLinks } from './SocialLinks';
 import { initials, isPlaceholder, type Person } from '@/content/team';
 import manifest from '@/public/team/manifest.json';
 
@@ -100,28 +101,14 @@ export function TeamCard({
           {person.school && <span className={styles.year}>{person.school}</span>}
         </span>
 
-        {(person.linkedin || person.github) && (
-          <span className={styles.links}>
-            {person.linkedin && (
-              <a href={person.linkedin} target="_blank" rel="noopener noreferrer">
-                LinkedIn
-                <span className="visually-hidden">
-                  {' '}
-                  ({person.name}, opens in a new tab)
-                </span>
-              </a>
-            )}
-            {person.github && (
-              <a href={person.github} target="_blank" rel="noopener noreferrer">
-                GitHub
-                <span className="visually-hidden">
-                  {' '}
-                  ({person.name}, opens in a new tab)
-                </span>
-              </a>
-            )}
-          </span>
-        )}
+        <SocialLinks
+          name={person.name}
+          links={{
+            linkedin: person.linkedin,
+            github: person.github,
+            website: person.website,
+          }}
+        />
       </figcaption>
     </figure>
   );

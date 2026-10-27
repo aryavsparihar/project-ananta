@@ -1,17 +1,21 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { PageHead } from '@/components/PageHead';
 import { Countdown } from '@/components/Countdown';
 import { Cutout } from '@/components/Cutout';
 import { Strip } from '@/components/Marks';
 import styles from './page.module.css';
-import { EVENT, REGISTRATION, REGISTRATION_URL, TEAM_RULES } from '@/content/event';
+import { getSiteContent } from '@/lib/site-content';
 
-export const metadata: Metadata = {
-  title: 'Register',
-  description: `Registration for ${EVENT.name} is open ${REGISTRATION.displayRange} 2026. Teams are announced by ${REGISTRATION.teamsAnnouncedBy}.`,
-  alternates: { canonical: '/register' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { event, registration } = await getSiteContent();
+  return {
+    title: 'Register',
+    description: `Registration for ${event.name} is open ${registration.displayRange} ${event.year}. Teams are announced by ${registration.teamsAnnouncedBy}.`,
+    alternates: { canonical: '/register' },
+  };
+}
 
 const CHECKLIST = [
   'Six weeks of building, not one weekend',
@@ -20,7 +24,11 @@ const CHECKLIST = [
   'A deployed product with a public URL by the final',
 ];
 
-export default function Register() {
+const FORM = '/register/form';
+
+export default async function Register() {
+  const { registration, team_rules: teamRules, portal, contact } = await getSiteContent();
+
   return (
     <>
       <PageHead
@@ -44,50 +52,74 @@ export default function Register() {
               </h2>
 
               <Countdown
-                deadline={REGISTRATION.closesAt}
-                label={`Closes ${REGISTRATION.closesDisplayFull}`}
+                deadline={registration.closesAt}
+                label={`Closes ${registration.closesDisplayFull}`}
                 closedLabel="Registration has closed."
               />
 
               <p className={styles.dates}>
                 <Strip tone="saffron" rotate={-1.5}>
-                  {REGISTRATION.displayRange}
+                  {registration.displayRange}
                 </Strip>
               </p>
 
-              <a
-                className={styles.cta}
-                href={REGISTRATION_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open the registration form
-                <span className="visually-hidden"> (opens in a new tab)</span>
-              </a>
+              <div className={styles.ctaRow}>
+                <Link
+                  className={styles.cta}
+                  href={`/signup?next=${encodeURIComponent(FORM)}`}
+                >
+                  Create your account
+                </Link>
+                <Link className="link" href={`/login?next=${encodeURIComponent(FORM)}`}>
+                  Already registered? Sign in
+                </Link>
+              </div>
 
               <p className={styles.announce}>
-                Everyone registers individually. Teams are announced by{' '}
-                {REGISTRATION.teamsAnnouncedBy}.
+                Sign up with your university email, confirm it, then fill the form. You
+                can edit your entry until it closes. Teams are announced by{' '}
+                {registration.teamsAnnouncedBy}.
               </p>
 
-              {/* For a laptop or a projected slide: scan it with a phone. Hidden
-    on phones, where the button above is the way in. */}
-              <figure className={styles.qr}>
-                <Image
-                  src="/register-qr.svg"
-                  width={164}
-                  height={164}
-                  alt=""
-                  unoptimized
-                  className={styles.qrCode}
-                />
-                <figcaption className={`meta ${styles.qrCaption}`}>
-                  Scan to register
-                  <span className={styles.qrBy}>
-                    by {REGISTRATION.closesDisplayShort}
-                  </span>
-                </figcaption>
-              </figure>
+              {portal.showGoogleForm && (
+                <div className={styles.fallback}>
+                  <p className={styles.fallbackText}>
+                    Site form not working for you? Use the{' '}
+                    <a
+                      href={portal.googleFormUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Google Form
+                      <span className="visually-hidden"> (opens in a new tab)</span>
+                    </a>{' '}
+                    instead. Use one or the other, not both.
+                  </p>
+
+                  {/* For a laptop or a projected slide: scan it with a phone. Hidden
+    on phones, where the link above is the way in. */}
+                  <figure className={styles.qr}>
+                    <Image
+                      src="/register-qr.svg"
+                      width={164}
+                      height={164}
+                      alt=""
+                      unoptimized
+                      className={styles.qrCode}
+                    />
+                    <figcaption className={`meta ${styles.qrCaption}`}>
+                      Google Form
+                      <span className={styles.qrBy}>
+                        by {registration.closesDisplayShort}
+                      </span>
+                    </figcaption>
+                  </figure>
+                </div>
+              )}
+
+              <p className={styles.contact}>
+                Questions: <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              </p>
             </div>
 
             <div className={styles.before}>
@@ -99,8 +131,8 @@ export default function Register() {
               </ul>
 
               <p className={`meta ${styles.teamLabel}`}>Every team has</p>
-              <p className={styles.team}>{TEAM_RULES[0].body}</p>
-              <p className={styles.team}>{TEAM_RULES[1].body}</p>
+              <p className={styles.team}>{teamRules[0].body}</p>
+              <p className={styles.team}>{teamRules[1].body}</p>
             </div>
           </div>
         </div>

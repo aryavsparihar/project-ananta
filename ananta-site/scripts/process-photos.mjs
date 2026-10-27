@@ -6,8 +6,8 @@
  *   npm run photos -- --force   everything
  *
  * One lossless-ish WebP master per photo, duotoned and torn, alpha intact.
- * next/image resizes and re-encodes it per request, so emitting a size ladder
- * here would only duplicate that work.
+ * The smaller sizes next/image serves are cut from this master by
+ * `npm run images` (scripts/build-image-sizes.mjs); run it after this.
  *
  * Also writes public/photos/manifest.json with real pixel dimensions, which
  * <Cutout> reads so next/image never guesses and nothing shifts while loading.

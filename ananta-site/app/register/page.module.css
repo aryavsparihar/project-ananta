@@ -33,15 +33,45 @@
   color: var(--c-ink);
 }
 
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4) var(--s-6);
+}
+
 .announce {
   margin-top: var(--s-4);
   color: var(--c-muted);
 }
 
+/* The Google Form, kept as a fallback beside the site's own form. */
+.fallback {
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px dashed var(--c-rule-strong);
+}
+
+.fallbackText {
+  font-size: var(--t-sm);
+  color: var(--c-muted);
+}
+
+.fallbackText a,
+.contact a {
+  color: var(--c-green);
+}
+
+.contact {
+  margin-top: var(--s-5);
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+}
+
 /* The poster's QR card: white, inked edge, slightly off true. */
 .qr {
   display: none;
-  margin: var(--s-7) 0 0;
+  margin: var(--s-5) 0 0;
   width: max-content;
 }
 

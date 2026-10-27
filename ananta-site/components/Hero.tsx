@@ -3,7 +3,10 @@ import styles from './Hero.module.css';
 import { Cutout } from './Cutout';
 import { Stamp } from './Stamp';
 import { Strip } from './Marks';
-import { EVENT, REGISTRATION, PRIZES } from '@/content/event';
+import type { SiteContent } from '@/lib/content-sections';
+
+/** "2026-10-23" -> "23.10", the poster's date style. */
+const dotted = (iso: string) => `${iso.slice(8, 10)}.${iso.slice(5, 7)}`;
 
 /**
  * The poster, pasted up.
@@ -14,7 +17,15 @@ import { EVENT, REGISTRATION, PRIZES } from '@/content/event';
  * `prefers-reduced-motion: no-preference` block — so when motion is not wanted
  * the page simply renders finished, with no JS deciding anything.
  */
-export function Hero() {
+export function Hero({
+  event,
+  registration,
+  prizes,
+}: {
+  event: SiteContent['event'];
+  registration: SiteContent['registration'];
+  prizes: SiteContent['prizes'];
+}) {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.head}>
@@ -25,10 +36,10 @@ export function Hero() {
       </div>
 
       <h1 id="hero-title" className={styles.wordmark}>
-        <span className={styles.wordmarkText}>{EVENT.name}</span>
+        <span className={styles.wordmarkText}>{event.name}</span>
         <span className="visually-hidden">
           {' '}
-          , {EVENT.devanagari}, {EVENT.meaning}. {EVENT.tagline}
+          , {event.devanagari}, {event.meaning}. {event.tagline}
         </span>
       </h1>
 
@@ -77,7 +88,7 @@ export function Hero() {
 
       <div className={styles.foot}>
         <p className={styles.dates}>
-          <span>23.10</span>
+          <span>{dotted(event.starts)}</span>
           <svg
             className={styles.arrow}
             viewBox="0 0 64 16"
@@ -91,12 +102,12 @@ export function Hero() {
               strokeWidth="2.5"
             />
           </svg>
-          <span>04.12</span>
+          <span>{dotted(event.ends)}</span>
         </p>
 
         <p className={styles.summary}>
           Six weeks. All four years. <em>One live product</em> per team.{' '}
-          {PRIZES.poolLabel} in prizes. Finals on campus.
+          {prizes.poolLabel} in prizes. Finals on campus.
         </p>
 
         <div className={styles.actions}>
@@ -106,7 +117,7 @@ export function Hero() {
           <p className={styles.deadline}>
             <span className="meta">Register by</span>
             <Strip tone="saffron" rotate={-1.4} className={styles.deadlineDate}>
-              {REGISTRATION.closesDisplayShort}
+              {registration.closesDisplayShort}
             </Strip>
           </p>
         </div>

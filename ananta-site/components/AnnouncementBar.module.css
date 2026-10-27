@@ -1,0 +1,27 @@
+/* A strip of saffron tape across the top of the sheet. Ink on saffron: 6.25:1. */
+.bar {
+  background: var(--c-saffron);
+  color: var(--c-ink);
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-1) var(--s-4);
+  max-width: 90rem;
+  margin-inline: auto;
+  padding: var(--s-2) var(--gutter);
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.link {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
+}

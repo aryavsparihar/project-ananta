@@ -9,6 +9,8 @@ import {
   type ChangeEvent,
 } from 'react';
 import { createClient } from '@/lib/supabase';
+import { downloadCsv } from '@/lib/admin';
+import { EXPERIENCE, SKILLS, YEARS } from '@/lib/portal';
 import styles from './registrations.module.css';
 
 const STATUSES = ['new', 'reviewing', 'accepted', 'waitlisted', 'rejected'] as const;
@@ -17,6 +19,7 @@ type RegistrationStatus = (typeof STATUSES)[number];
 
 type Registration = {
   id: string;
+  source: 'google_forms' | 'website';
   participant_name: string | null;
   participant_email: string | null;
   submitted_at: string | null;
@@ -24,7 +27,20 @@ type Registration = {
   status: RegistrationStatus;
   admin_notes: string | null;
   form_response: Record<string, unknown>;
+  entry_number: string | null;
+  year_of_study: string | null;
+  department: string | null;
+  phone: string | null;
+  whatsapp: string | null;
+  github_url: string | null;
+  linkedin_url: string | null;
+  skills: string[] | null;
+  experience_level: string | null;
+  project_idea: string | null;
+  cv_path: string | null;
 };
+
+const SOURCE_LABEL = { website: 'Site form', google_forms: 'Google Form' } as const;
 
 type Draft = {
   status: RegistrationStatus;
@@ -56,6 +72,9 @@ export default function RegistrationsPage() {
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [sourceFilter, setSourceFilter] = useState('all');
+  const [yearFilter, setYearFilter] = useState('all');
+  const [skillFilter, setSkillFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [importing, setImporting] = useState(false);
   const [savingId, setSavingId] = useState<string | null>(null);
@@ -70,7 +89,7 @@ export default function RegistrationsPage() {
       const { data, error } = await supabase
         .from('registrations')
         .select(
-          'id, participant_name, participant_email, submitted_at, imported_at, status, admin_notes, form_response',
+          'id, source, participant_name, participant_email, submitted_at, imported_at, status, admin_notes, form_response, entry_number, year_of_study, department, phone, whatsapp, github_url, linkedin_url, skills, experience_level, project_idea, cv_path',
         )
         .order('submitted_at', {
           ascending: false,
@@ -117,15 +136,110 @@ export default function RegistrationsPage() {
       const status = draft?.status ?? row.status;
 
       const matchesStatus = statusFilter === 'all' || status === statusFilter;
+      const matchesSource = sourceFilter === 'all' || row.source === sourceFilter;
+      const matchesYear = yearFilter === 'all' || row.year_of_study === yearFilter;
+      const matchesSkill =
+        skillFilter === 'all' || (row.skills ?? []).includes(skillFilter);
 
       const matchesSearch =
         !query ||
         (row.participant_name ?? '').toLowerCase().includes(query) ||
-        (row.participant_email ?? '').toLowerCase().includes(query);
+        (row.participant_email ?? '').toLowerCase().includes(query) ||
+        (row.entry_number ?? '').toLowerCase().includes(query);
 
-      return matchesStatus && matchesSearch;
+      return (
+        matchesStatus && matchesSource && matchesYear && matchesSkill && matchesSearch
+      );
     });
-  }, [rows, drafts, search, statusFilter]);
+  }, [rows, drafts, search, statusFilter, sourceFilter, yearFilter, skillFilter]);
+
+  // Someone who used both the site form and the Google Form shows up twice.
+  const duplicateEmails = useMemo(() => {
+    const seen = new Map<string, number>();
+    for (const row of rows) {
+      const email = (row.participant_email ?? '').toLowerCase();
+      if (email) seen.set(email, (seen.get(email) ?? 0) + 1);
+    }
+    return new Set([...seen].filter(([, n]) => n > 1).map(([email]) => email));
+  }, [rows]);
+
+  async function openCv(path: string) {
+    const { data, error } = await createClient()
+      .storage.from('cvs')
+      .createSignedUrl(path, 120);
+    if (error || !data?.signedUrl) {
+      setNotice({ kind: 'error', text: error?.message ?? 'Could not open the CV.' });
+      return;
+    }
+    window.open(data.signedUrl, '_blank', 'noopener');
+  }
+
+  async function deleteRegistration(row: Registration) {
+    if (
+      !window.confirm(
+        `Delete the registration for ${row.participant_name ?? 'this participant'}? This cannot be undone.`,
+      )
+    ) {
+      return;
+    }
+    setSavingId(row.id);
+    setNotice(null);
+    const supabase = createClient();
+    const { error } = await supabase.from('registrations').delete().eq('id', row.id);
+    if (!error && row.cv_path) await supabase.storage.from('cvs').remove([row.cv_path]);
+    setSavingId(null);
+    if (error) {
+      setNotice({ kind: 'error', text: error.message });
+      return;
+    }
+    setRows((current) => current.filter((r) => r.id !== row.id));
+    setNotice({ kind: 'success', text: 'Registration deleted.' });
+  }
+
+  function exportCsv() {
+    const experience = (value: string | null) =>
+      EXPERIENCE.find((x) => x.value === value)?.label ?? '';
+    downloadCsv(`ananta-registrations-${new Date().toISOString().slice(0, 10)}.csv`, [
+      [
+        'Source',
+        'Submitted',
+        'Status',
+        'Full name',
+        'Email',
+        'Entry number',
+        'Year',
+        'Department',
+        'Mobile',
+        'WhatsApp',
+        'GitHub',
+        'LinkedIn',
+        'Skills',
+        'Experience',
+        'Project idea',
+        'CV',
+        'Internal notes',
+      ],
+      ...filteredRows.map((row) => [
+        SOURCE_LABEL[row.source],
+        row.submitted_at,
+        drafts[row.id]?.status ?? row.status,
+        row.participant_name,
+        row.participant_email,
+        row.entry_number,
+        row.year_of_study,
+        row.department,
+        row.phone,
+        row.whatsapp,
+        row.github_url,
+        row.linkedin_url,
+        (row.skills ?? []).join('; '),
+        experience(row.experience_level),
+        row.project_idea,
+        row.cv_path ? 'Uploaded' : '',
+        row.admin_notes,
+      ]),
+    ]);
+  }
 
   function updateDraft(id: string, field: keyof Draft, value: string) {
     setDrafts((current) => ({
@@ -244,19 +358,30 @@ export default function RegistrationsPage() {
               Registrations<span>.</span>
             </h1>
             <p className={styles.intro}>
-              Review imported applications and keep internal notes. Google Forms remains
-              the registration intake.
+              Entries from the site&rsquo;s own form arrive here as they are submitted.
+              Google Form responses still come in through a CSV import. Review, keep
+              internal notes, and export what you filter.
             </p>
           </div>
 
-          <button
-            type="button"
-            className={styles.secondaryButton}
-            onClick={() => void loadRegistrations()}
-            disabled={loading}
-          >
-            Refresh
-          </button>
+          <div className={styles.headerActions}>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={exportCsv}
+              disabled={loading || filteredRows.length === 0}
+            >
+              Export CSV ({filteredRows.length})
+            </button>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={() => void loadRegistrations()}
+              disabled={loading}
+            >
+              Refresh
+            </button>
+          </div>
         </header>
 
         <section className={styles.summary}>
@@ -272,6 +397,14 @@ export default function RegistrationsPage() {
             <span>Accepted</span>
             <strong>{rows.filter((row) => row.status === 'accepted').length}</strong>
           </div>
+          <div>
+            <span>Site form</span>
+            <strong>{rows.filter((row) => row.source === 'website').length}</strong>
+          </div>
+          <div>
+            <span>Google Form</span>
+            <strong>{rows.filter((row) => row.source === 'google_forms').length}</strong>
+          </div>
         </section>
 
         <section className={styles.panel}>
@@ -280,7 +413,7 @@ export default function RegistrationsPage() {
               <span>Search participants</span>
               <input
                 type="search"
-                placeholder="Name or email"
+                placeholder="Name, email or entry number"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
               />
@@ -296,6 +429,48 @@ export default function RegistrationsPage() {
                 {STATUSES.map((status) => (
                   <option key={status} value={status}>
                     {status.replace('_', ' ')}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className={styles.filter}>
+              <span>Source</span>
+              <select
+                value={sourceFilter}
+                onChange={(event) => setSourceFilter(event.target.value)}
+              >
+                <option value="all">Both</option>
+                <option value="website">Site form</option>
+                <option value="google_forms">Google Form</option>
+              </select>
+            </label>
+
+            <label className={styles.filter}>
+              <span>Year</span>
+              <select
+                value={yearFilter}
+                onChange={(event) => setYearFilter(event.target.value)}
+              >
+                <option value="all">All years</option>
+                {YEARS.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className={styles.filter}>
+              <span>Skill</span>
+              <select
+                value={skillFilter}
+                onChange={(event) => setSkillFilter(event.target.value)}
+              >
+                <option value="all">Any skill</option>
+                {SKILLS.map((skill) => (
+                  <option key={skill} value={skill}>
+                    {skill}
                   </option>
                 ))}
               </select>
@@ -339,8 +514,8 @@ export default function RegistrationsPage() {
             <div className={styles.empty}>
               <strong>No registrations found.</strong>
               <p>
-                Import a CSV export from Google Forms, or adjust your search and status
-                filters.
+                Entries from the site form appear here automatically. Import a CSV export
+                from Google Forms, or adjust your search and filters.
               </p>
             </div>
           ) : (
@@ -370,6 +545,64 @@ export default function RegistrationsPage() {
                           <span className={styles.email}>
                             {row.participant_email || 'No email'}
                           </span>
+                          <span className={styles.badges}>
+                            <span className={styles.badge}>
+                              {SOURCE_LABEL[row.source]}
+                            </span>
+                            {duplicateEmails.has(
+                              (row.participant_email ?? '').toLowerCase(),
+                            ) && (
+                              <span className={`${styles.badge} ${styles.badgeWarn}`}>
+                                Registered twice
+                              </span>
+                            )}
+                          </span>
+                          {row.source === 'website' && (
+                            <span className={styles.facts}>
+                              {[
+                                row.entry_number,
+                                row.year_of_study && `${row.year_of_study} yr`,
+                                row.department,
+                                row.phone,
+                              ]
+                                .filter(Boolean)
+                                .join(' · ')}
+                              {(row.skills ?? []).length > 0 && (
+                                <span className={styles.skills}>
+                                  {(row.skills ?? []).join(', ')}
+                                </span>
+                              )}
+                              <span className={styles.links}>
+                                {row.github_url && (
+                                  <a
+                                    href={row.github_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    GitHub
+                                  </a>
+                                )}
+                                {row.linkedin_url && (
+                                  <a
+                                    href={row.linkedin_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    LinkedIn
+                                  </a>
+                                )}
+                                {row.cv_path && (
+                                  <button
+                                    type="button"
+                                    className={styles.linkButton}
+                                    onClick={() => void openCv(row.cv_path!)}
+                                  >
+                                    CV
+                                  </button>
+                                )}
+                              </span>
+                            </span>
+                          )}
 
                           <details className={styles.details}>
                             <summary>Original form answers</summary>
@@ -378,7 +611,7 @@ export default function RegistrationsPage() {
                                 ([key, value]) => (
                                   <div key={key}>
                                     <dt>{key}</dt>
-                                    <dd>{String(value ?? '—')}</dd>
+                                    <dd>{String(value ?? '') || 'Not answered'}</dd>
                                   </div>
                                 ),
                               )}
@@ -420,14 +653,24 @@ export default function RegistrationsPage() {
                         </td>
 
                         <td>
-                          <button
-                            type="button"
-                            className={styles.saveButton}
-                            onClick={() => void saveRegistration(row.id)}
-                            disabled={savingId === row.id}
-                          >
-                            {savingId === row.id ? 'Saving…' : 'Save'}
-                          </button>
+                          <div className={styles.rowActions}>
+                            <button
+                              type="button"
+                              className={styles.saveButton}
+                              onClick={() => void saveRegistration(row.id)}
+                              disabled={savingId === row.id}
+                            >
+                              {savingId === row.id ? 'Saving…' : 'Save'}
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.deleteButton}
+                              onClick={() => void deleteRegistration(row)}
+                              disabled={savingId === row.id}
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -438,8 +681,8 @@ export default function RegistrationsPage() {
           )}
 
           <p className={styles.footerNote}>
-            Showing up to 2,000 imported records. Only active super admins and event
-            admins should be able to view or update this data.
+            Showing up to 2,000 records. Only active super admins and event admins can
+            view or update this data; the database enforces it.
           </p>
         </section>
       </div>

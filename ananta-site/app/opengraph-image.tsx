@@ -1,7 +1,9 @@
 import { ImageResponse } from 'next/og';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { EVENT, PRESENTED_BY, REGISTRATION } from '@/content/event';
+import { EVENT } from '@/content/event';
+import { presentedBy } from '@/lib/content-sections';
+import { getSiteContent } from '@/lib/site-content';
 
 export const alt = `${EVENT.name} · ${EVENT.tagline}`;
 export const size = { width: 1200, height: 630 };
@@ -19,6 +21,7 @@ async function font(file: string) {
 }
 
 export default async function Image() {
+  const { event, registration } = await getSiteContent();
   const [display, mono] = await Promise.all([
     font('BricolageGrotesque-Condensed-ExtraBold.ttf'),
     font('DMMono-Medium.ttf'),
@@ -52,7 +55,7 @@ export default async function Image() {
           color: '#5A5751',
         }}
       >
-        <span>{PRESENTED_BY}</span>
+        <span>{presentedBy(event)}</span>
         <span>A project hackathon · SMVDU</span>
       </div>
 
@@ -66,7 +69,7 @@ export default async function Image() {
             textTransform: 'uppercase',
           }}
         >
-          {EVENT.name}
+          {event.name}
         </div>
 
         <div style={{ display: 'flex', marginTop: 20, gap: 14 }}>
@@ -110,9 +113,9 @@ export default async function Image() {
           textTransform: 'uppercase',
         }}
       >
-        <span>{EVENT.displayRange}</span>
+        <span>{event.displayRange}</span>
         <span style={{ color: '#5A5751' }}>
-          Register by {REGISTRATION.closesDisplayShort}
+          Register by {registration.closesDisplayShort}
         </span>
       </div>
     </div>,

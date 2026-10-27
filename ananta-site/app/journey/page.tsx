@@ -3,17 +3,21 @@ import type { Metadata } from 'next';
 import { PageHead } from '@/components/PageHead';
 import { CircuitRule } from '@/components/Marks';
 import styles from './page.module.css';
-import { EVENT, ROUNDS, REGISTRATION } from '@/content/event';
+import { getSiteContent } from '@/lib/site-content';
 
-export const metadata: Metadata = {
-  title: 'The journey',
-  description: `The four marked rounds of ${EVENT.name}, from ideation on 6 November to the live demo on 4 December, with the build window in between.`,
-  alternates: { canonical: '/journey' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { event } = await getSiteContent();
+  return {
+    title: 'The journey',
+    description: `The four marked rounds of ${event.name}, from ideation on 6 November to the live demo on 4 December, with the build window in between.`,
+    alternates: { canonical: '/journey' },
+  };
+}
 
-const TOTAL_MARKS = ROUNDS.reduce((sum, r) => sum + (r.marks ?? 0), 0);
+export default async function Journey() {
+  const { rounds, registration } = await getSiteContent();
+  const totalMarks = rounds.reduce((sum, r) => sum + (r.marks ?? 0), 0);
 
-export default function Journey() {
   return (
     <>
       <PageHead
@@ -48,7 +52,7 @@ export default function Journey() {
           </div>
 
           <ol className={styles.entries}>
-            {ROUNDS.map((round) => {
+            {rounds.map((round) => {
               const isWindow = round.marks === null;
               return (
                 <li
@@ -104,7 +108,7 @@ export default function Journey() {
           </ol>
 
           <p className={styles.total}>
-            {TOTAL_MARKS} marks across four rounds · Rounds 3 and 4 are on campus
+            {totalMarks} marks across four rounds · Rounds 3 and 4 are on campus
           </p>
         </div>
       </section>
@@ -120,11 +124,11 @@ export default function Journey() {
           </h2>
           <ol className={styles.pre}>
             <li>
-              <span className="meta">{REGISTRATION.displayRange}</span>
+              <span className="meta">{registration.displayRange}</span>
               <p>Registration is open.</p>
             </li>
             <li>
-              <span className="meta">By {REGISTRATION.teamsAnnouncedBy}</span>
+              <span className="meta">By {registration.teamsAnnouncedBy}</span>
               <p>Teams are announced.</p>
             </li>
           </ol>

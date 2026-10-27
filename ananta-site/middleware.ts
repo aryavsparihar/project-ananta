@@ -21,6 +21,10 @@ const ADMIN_ROUTES: {
     roles: ['super_admin', 'event_admin'],
   },
   {
+    path: '/admin/problems',
+    roles: ['super_admin', 'event_admin'],
+  },
+  {
     path: '/admin/teams',
     roles: ['super_admin', 'event_admin'],
   },
@@ -67,8 +71,74 @@ function redirectPreservingCookies(
   return redirect;
 }
 
+// Participant pages: any signed-in account. What each account can read is
+// still decided by RLS; this only sends signed-out visitors to /login.
+const PARTICIPANT_ROUTES = ['/account', '/register/form', '/contest', '/problems'];
+
+function createSupabase(request: NextRequest, url: string, key: string) {
+  let response = NextResponse.next({ request });
+
+  const supabase = createServerClient(url, key, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookies) {
+        cookies.forEach(({ name, value }) => {
+          request.cookies.set(name, value);
+        });
+
+        response = NextResponse.next({ request });
+
+        cookies.forEach(({ name, value, options }) => {
+          response.cookies.set(name, value, options);
+        });
+      },
+    },
+  });
+
+  return { supabase, response: () => response };
+}
+
+async function participantGate(request: NextRequest, pathname: string) {
+  const login = `/login?next=${encodeURIComponent(pathname + request.nextUrl.search)}`;
+
+  // No session cookie at all: skip the round trip to Supabase Auth.
+  const hasSession = request.cookies
+    .getAll()
+    .some(({ name }) => /^sb-.+-auth-token(\.\d+)?$/.test(name));
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!hasSession || !url || !key) {
+    return NextResponse.redirect(new URL(login, request.url));
+  }
+
+  const { supabase, response } = createSupabase(request, url, key);
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    return redirectPreservingCookies(request, response(), login);
+  }
+
+  return response();
+}
+
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname.replace(/\/+$/, '') || '/';
+
+  if (
+    PARTICIPANT_ROUTES.some(
+      (path) => pathname === path || pathname.startsWith(`${path}/`),
+    )
+  ) {
+    return participantGate(request, pathname);
+  }
 
   // The sign-in page must remain reachable when signed out.
   if (pathname === '/admin') {
@@ -96,26 +166,7 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  let response = NextResponse.next({ request });
-
-  const supabase = createServerClient(url, key, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      setAll(cookies) {
-        cookies.forEach(({ name, value }) => {
-          request.cookies.set(name, value);
-        });
-
-        response = NextResponse.next({ request });
-
-        cookies.forEach(({ name, value, options }) => {
-          response.cookies.set(name, value, options);
-        });
-      },
-    },
-  });
+  const { supabase, response } = createSupabase(request, url, key);
 
   // Verify the current session with Supabase Auth.
   const {
@@ -126,7 +177,7 @@ export async function middleware(request: NextRequest) {
   if (authError || !user) {
     return redirectPreservingCookies(
       request,
-      response,
+      response(),
       '/admin?login=1',
     );
   }
@@ -142,14 +193,20 @@ export async function middleware(request: NextRequest) {
   ) {
     return redirectPreservingCookies(
       request,
-      response,
+      response(),
       '/admin?access=denied',
     );
   }
 
-  return response;
+  return response();
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: [
+    '/admin/:path*',
+    '/account/:path*',
+    '/register/form',
+    '/contest/:path*',
+    '/problems/:path*',
+  ],
 };

@@ -1,0 +1,440 @@
+/*
+ * The participant portal: sign-in, sign-up, the registration form and the
+ * account page. Same language as the admin sign-in: square inked inputs, mono
+ * labels, ink buttons that turn saffron on hover. No rounded cards.
+ */
+
+.wrap {
+  padding-block: var(--s-8) var(--s-9);
+}
+
+.card {
+  width: 100%;
+  max-width: 30rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.wide {
+  width: 100%;
+  max-width: 52rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.label {
+  color: var(--c-muted);
+  margin-bottom: var(--s-5);
+}
+
+.title {
+  font-size: var(--t-h2);
+  margin-bottom: var(--s-4);
+}
+
+.intro {
+  max-width: 48ch;
+  color: var(--c-muted);
+}
+
+/* ------------------------------------------------------------- the form */
+
+.form {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-7);
+}
+
+.group {
+  display: grid;
+  gap: var(--s-5);
+  margin: 0;
+  padding: var(--s-6) 0 0;
+  border: 0;
+  border-top: 2px solid var(--c-ink);
+  min-width: 0;
+}
+
+.legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--s-2);
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 85%;
+  font-size: var(--t-h3);
+  line-height: 1.05;
+}
+
+.legend + * {
+  clear: both;
+}
+
+.groupNote {
+  color: var(--c-muted);
+  font-size: var(--t-sm);
+  max-width: 60ch;
+}
+
+.row {
+  display: grid;
+  gap: var(--s-5);
+}
+
+@media (min-width: 40rem) {
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+}
+
+.fieldLabel {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.req {
+  color: var(--c-saffron-text);
+}
+
+.input,
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: var(--s-3) var(--s-4);
+  background: var(--c-paper);
+  border: 1px solid var(--c-rule-strong);
+  border-radius: 0;
+  font-family: var(--f-mono);
+  font-size: var(--t-base);
+}
+
+.field textarea {
+  min-height: 7rem;
+  resize: vertical;
+  font-family: var(--f-serif);
+  line-height: 1.5;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--c-ink);
+}
+
+.hint {
+  font-size: var(--t-sm);
+  color: var(--c-muted);
+}
+
+/* Skill chips: real checkboxes, styled as tape labels when ticked. */
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.choices li {
+  flex: 0 1 auto;
+  max-width: 100%;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-align: left;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--c-rule-strong);
+  background: var(--c-paper);
+  font-size: var(--t-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.chip input {
+  flex: none;
+  accent-color: var(--c-ink);
+  margin: 0;
+}
+
+/* One line per chip wherever a line fits the longest skill. */
+@media (min-width: 30rem) {
+  .chip {
+    white-space: nowrap;
+  }
+}
+
+.chip:has(input:checked) {
+  background: var(--c-ink);
+  border-color: var(--c-ink);
+  color: var(--c-paper);
+}
+
+.chip:has(input:focus-visible) {
+  outline: 3px solid var(--c-ink);
+  outline-offset: 2px;
+}
+
+.levels {
+  display: grid;
+  gap: var(--s-2);
+}
+
+@media (min-width: 40rem) {
+  .levels {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.level {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 var(--s-3);
+  align-items: baseline;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--c-rule-strong);
+  cursor: pointer;
+}
+
+.level input {
+  accent-color: var(--c-ink);
+  margin: 0;
+}
+
+.level strong {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 85%;
+  font-size: 1.125rem;
+}
+
+.level span {
+  grid-column: 2;
+  font-size: var(--t-sm);
+  color: var(--c-muted);
+}
+
+.level:has(input:checked) {
+  border-color: var(--c-ink);
+  box-shadow: inset 4px 0 0 var(--c-saffron);
+}
+
+.consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-3);
+  align-items: start;
+  padding: var(--s-4);
+  background: var(--c-paper-deep);
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.consent input {
+  accent-color: var(--c-ink);
+  margin-top: 0.25em;
+}
+
+.file {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.fileName {
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+}
+
+/* ------------------------------------------------------------- buttons */
+
+.submit,
+.button {
+  display: inline-block;
+  padding: var(--s-4) var(--s-6);
+  background: var(--c-ink);
+  color: var(--c-paper);
+  border: 0;
+  border-radius: 0;
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.submit {
+  width: 100%;
+}
+
+.submit:hover:not(:disabled),
+.button:hover {
+  background: var(--c-saffron);
+  color: var(--c-ink);
+}
+
+.submit:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.ghost {
+  display: inline-block;
+  padding: var(--s-2) var(--s-4);
+  background: none;
+  border: 1px solid var(--c-ink);
+  border-radius: 0;
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--c-ink);
+  color: var(--c-paper);
+}
+
+.ghost:disabled {
+  opacity: 0.55;
+}
+
+/* ------------------------------------------------------------- notices */
+
+.message,
+.error,
+.success {
+  padding: var(--s-3) var(--s-4);
+  background: var(--c-paper-deep);
+  font-size: var(--t-sm);
+  border-left: 3px solid var(--c-saffron);
+}
+
+.error {
+  border-left-color: #b3261e;
+}
+
+.success {
+  border-left-color: var(--c-green);
+}
+
+.after {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-rule);
+  font-size: var(--t-sm);
+  color: var(--c-muted);
+}
+
+.after a {
+  color: var(--c-green);
+}
+
+/* -------------------------------------------------------- account page */
+
+.panels {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-7);
+}
+
+@media (min-width: 48rem) {
+  .panels {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.panel {
+  padding-top: var(--s-5);
+  border-top: 2px solid var(--c-ink);
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+}
+
+.panel h2 {
+  font-size: var(--t-h3);
+}
+
+.facts {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+}
+
+.facts div {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: var(--s-3);
+}
+
+.facts dt {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  padding-top: 0.2em;
+}
+
+.facts dd {
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  align-items: center;
+  margin-top: var(--s-2);
+}
+
+.status {
+  justify-self: start;
+  padding: 3px var(--s-3);
+  background: var(--c-navy);
+  color: var(--c-paper);
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.statusDone {
+  background: var(--c-green);
+}
+
+.visuallyHiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}

@@ -215,5 +215,38 @@ export const REGISTRATION_URL =
 /** "SANGAM × DevGrowth × Code Club" */
 export const PRESENTED_BY = EVENT.presenters.join(' × ');
 
+/** Where participants write to. Shown on the register, account and portal pages. */
+export const CONTACT = {
+  email: 'devgrowth@smvdu.ac.in',
+  note: 'Questions about registration, teams or the rounds go to the organisers here.',
+} as const;
+
+/** A one-line notice above every page. Off until an organiser turns it on. */
+export const ANNOUNCEMENT = {
+  enabled: false,
+  text: '',
+  href: '',
+  linkLabel: '',
+} as const;
+
+/**
+ * The participant portal. Organisers change these from /admin/content; the
+ * database reads `formOpen` and `allowedEmailDomains` too, so the rules on the
+ * form and the rules on the server are always the same ones.
+ */
+export const PORTAL = {
+  /** Accept new registrations and edits. Also closes at REGISTRATION.closesAt. */
+  formOpen: true,
+  /** An empty list accepts any email domain. */
+  allowedEmailDomains: ['smvdu.ac.in'],
+  /** Keep the Google Form on /register as a fallback. */
+  showGoogleForm: true,
+  googleFormUrl: REGISTRATION_URL,
+  /** An optional extra line under "To be released soon" on /problems. */
+  problemsNote: '',
+  /** Shown on /contest until the first team is published. */
+  contestNote: `Teams are formed by the organisers and announced by ${REGISTRATION.teamsAnnouncedBy}.`,
+};
+
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://project-ananta-zvut.vercel.app';

@@ -1,0 +1,216 @@
+/* ------------------------------------------------------- the sealed brief */
+
+.sealed {
+  display: grid;
+  gap: var(--s-8);
+  align-items: center;
+}
+
+@media (min-width: 56rem) {
+  .sealed {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+}
+
+/* A manila envelope, paper-grained, slightly off true. */
+.envelope {
+  position: relative;
+  max-width: 26rem;
+  aspect-ratio: 4 / 5;
+  padding: var(--s-6) var(--s-5);
+  background: #e3cfa3;
+  border: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent);
+  box-shadow: 4px 6px 0 color-mix(in srgb, var(--c-ink) 14%, transparent);
+  transform: rotate(-2deg);
+}
+
+.envelope::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/textures/paper.jpg');
+  background-size: 300px auto;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.tape {
+  position: absolute;
+  z-index: 2;
+  top: -10px;
+  width: 70px;
+  height: 20px;
+  background: var(--c-tape);
+  mix-blend-mode: multiply;
+}
+
+.tapeL {
+  left: 14%;
+  rotate: -6deg;
+}
+
+.tapeR {
+  right: 14%;
+  rotate: 5deg;
+}
+
+.fileNo {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--c-ink) 70%, transparent);
+}
+
+/* The rubber stamp: saffron ink, a double border, pressed on at an angle. */
+.stamp {
+  position: absolute;
+  z-index: 3;
+  top: 38%;
+  left: 50%;
+  translate: -50% -50%;
+  rotate: -14deg;
+  padding: var(--s-2) var(--s-5);
+  border: 4px double var(--c-saffron-deep);
+  color: var(--c-saffron-deep);
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 75%;
+  font-variation-settings: 'wdth' 75;
+  font-size: clamp(2.5rem, 9vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+}
+
+.page {
+  display: grid;
+  gap: var(--s-4);
+  margin-top: var(--s-6);
+}
+
+.bar {
+  display: block;
+  height: 0.85rem;
+  width: calc(var(--w) * 100%);
+  background: var(--c-ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Someone is trying to read through the envelope: the bars flicker. */
+  .bar {
+    animation: peek 3.2s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 140ms);
+  }
+
+  .cursor::after {
+    animation: blink 1s steps(1) infinite;
+  }
+}
+
+@keyframes peek {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.82;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.copy {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.soon {
+  font-size: var(--t-h1);
+}
+
+.note {
+  color: var(--c-muted);
+  max-width: 52ch;
+}
+
+.log {
+  display: grid;
+  gap: 2px;
+  margin: var(--s-4) 0 0;
+  padding: var(--s-4) var(--s-5);
+  background: var(--c-navy);
+  color: var(--c-paper);
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  overflow-x: auto;
+}
+
+.cursor::after {
+  content: '_';
+  margin-left: 2px;
+  color: var(--c-saffron);
+}
+
+/* ------------------------------------------------------- published list */
+
+.list {
+  border-top: 2px solid var(--c-ink);
+}
+
+.item {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-7) 0;
+  border-bottom: 1px solid var(--c-rule);
+}
+
+@media (min-width: 48rem) {
+  .item {
+    grid-template-columns: 12rem 1fr;
+    gap: var(--s-6);
+  }
+}
+
+.code {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.08em;
+  color: var(--c-saffron-text);
+}
+
+.domain {
+  justify-self: start;
+  padding: 1px var(--s-2);
+  background: var(--c-paper-deep);
+  color: var(--c-ink);
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: var(--t-h2);
+  margin-bottom: var(--s-3);
+}
+
+.summary {
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  max-width: calc(40 * var(--serif-ch));
+  margin-bottom: var(--s-4);
+}
+
+.body {
+  max-width: var(--measure);
+  white-space: pre-line;
+  margin-bottom: var(--s-4);
+}

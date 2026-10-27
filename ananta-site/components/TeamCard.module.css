@@ -206,22 +206,6 @@
   color: var(--c-muted);
 }
 
-.links {
-  display: flex;
-  gap: var(--s-3);
-  margin-top: var(--s-2);
-}
-
-.links a {
-  font-family: var(--f-mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--c-green);
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-}
-
 /* -------------------------------------------------------------- featured */
 
 .featured .initials {
