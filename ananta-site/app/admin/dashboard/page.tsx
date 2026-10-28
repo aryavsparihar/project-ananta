@@ -54,7 +54,6 @@ export default function Dashboard() {
     <section className={styles.page}>
       <header className={styles.head}>
         <div>
-          <p className={`meta ${styles.kicker}`}>ANANTA / Admin</p>
           <h1 className={styles.title}>
             Control <em>room.</em>
           </h1>
@@ -91,6 +90,56 @@ export default function Dashboard() {
             <span className="meta">Problems live</span>
             <strong>{show('problems')}</strong>
           </div>
+        </div>
+      )}
+
+      {organiser && (
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Launch checklist</h2>
+          <div className={styles.modules}>
+            <Link href="/admin/accounts" className={styles.module}>
+              <h2>Review participant accounts</h2>
+              <p className={styles.muted}>
+                Find signed-in students who have not submitted the registration form.
+              </p>
+            </Link>
+            <Link href="/admin/problems" className={styles.module}>
+              <h2>
+                {counts.problems === 0
+                  ? 'Publish problem statements'
+                  : 'Review problem statements'}
+              </h2>
+              <p className={styles.muted}>
+                {counts.problems === 0
+                  ? 'No problem statements are published yet. Add the approved statements before sharing the page.'
+                  : `${counts.problems} problem statement(s) are currently published.`}
+              </p>
+            </Link>
+            <Link href="/admin/teams" className={styles.module}>
+              <h2>
+                {counts.teams === 0 ? 'Create the team roster' : 'Review team roster'}
+              </h2>
+              <p className={styles.muted}>
+                {counts.teams === 0
+                  ? 'No teams are saved yet. Create teams after the registration review and publish them when approved.'
+                  : `${counts.teams} team(s) are saved. Check member details and publication status.`}
+              </p>
+            </Link>
+            <Link href="/admin/content" className={styles.module}>
+              <h2>Verify event content</h2>
+              <p className={styles.muted}>
+                Review dates, rules, prizes, contact details, registration settings and
+                the team page. Shipped defaults remain active until a section is saved
+                here.
+              </p>
+            </Link>
+          </div>
+          {counts.registrations === 0 && (
+            <p className={styles.notice}>
+              No registration rows exist yet. Check participant accounts separately: a
+              confirmed sign-in is not the same as a submitted entry.
+            </p>
+          )}
         </div>
       )}
 

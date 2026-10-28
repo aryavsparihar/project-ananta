@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import { fontClassNames } from './fonts';
 import { SiteNav } from '@/components/SiteNav';
@@ -71,6 +72,7 @@ export default async function RootLayout({
         </main>
         <SiteFooter event={event} contact={contact} />
         <ImageRetry />
+        <Analytics />
       </body>
     </html>
   );

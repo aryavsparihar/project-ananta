@@ -4,35 +4,36 @@ A multi-page Next.js website for the six-week ANANTA project hackathon. Design d
 
 ## Pages
 
-- `/` Home / interactive 3D hero / event highlights
-- `/about` About ANANTA
-- `/journey` Four-round timeline and evaluation criteria
-- `/rules` Team requirements and event rules
-- `/register` Registration handoff to the organiser-approved form
-- `/admin` Supabase sign-in
-- `/admin/dashboard` Protected admin landing area
+- Public site: `/`, `/about`, `/journey`, `/rules`, `/team`, `/glimpses`
+- Registration handoff: `/register`
+- Participant portal: `/signup`, `/login`, `/register/form`, `/account`, `/account/password`
+- Participant data: `/problems`, `/contest`
+- Admin: `/admin`, `/admin/dashboard`, `/admin/accounts`, `/admin/registrations`, `/admin/teams`, `/admin/problems`, `/admin/judging`, `/admin/content`, `/admin/users`, `/admin/audit`
 
 ## Run locally
 
-1. Install Node.js 20+.
-2. Run `npm install`.
-3. Copy `.env.example` to `.env.local` and fill in the real values.
-4. Run `npm run dev` and open `http://localhost:3000`.
+1. Install Node.js 24 (see the repository-root `.nvmrc`).
+2. Run `npm ci` from this directory.
+3. Copy `.env.example` to `.env.local` and fill the Supabase URL and anon/publishable key.
+4. Add `SUPABASE_SERVICE_ROLE_KEY` locally only if you need to test the Google Forms CSV import endpoint. It is server-only and must never use a `NEXT_PUBLIC_` prefix.
+5. Run `npm run dev` and open `http://localhost:3000`.
 
-## Admin setup (required before launch)
+## Supabase and admin setup
 
-1. Create a Supabase project and add URL + anon key to `.env.local`.
-2. Set `ADMIN_EMAILS` to the organiser emails allowed to administer the site, comma-separated.
-3. In Supabase Authentication, create/invite that email as a user and set its password securely. Disable public signups if they are not needed.
-4. The middleware checks the authenticated user's email against `ADMIN_EMAILS` for `/admin/*`. Do not expose service-role keys in browser code.
-5. The dashboard intentionally indicates where database-backed features belong. Before enabling registration management, create the required tables and strict Row Level Security policies. Do not collect student data in an unprotected public table.
-6. The registration form is set in `content/event.ts`. `NEXT_PUBLIC_REGISTRATION_URL` overrides it if the form ever changes.
+The current application uses the database-backed RBAC model, not the legacy `ADMIN_EMAILS` allowlist. Apply the three migration files in `supabase/migrations/` to the linked project. Confirm the migration list matches before testing the portal.
+
+Organiser accounts need an active row in `public.admin_users` with the intended role. Super admins can invite a new organiser at `/admin/users`, or promote a confirmed existing account at `/admin/accounts`. If an invite email already has an Auth account, the invite action assigns the selected role instead of sending a duplicate invitation. The account directory also lists students who have not completed registration. Judges use `/admin/judging`; row-level security limits judges to their own scores. Do not expose the service-role key in browser code or preview deployments connected to production data.
+
+The public site ships content defaults from `content/event.ts`. Organiser edits are optional overrides in `public.site_content`. Website registrations go through the database RPCs; students must not be given direct access to the full registrations table.
+
+The registration form URL is set in `content/event.ts`. `NEXT_PUBLIC_REGISTRATION_URL` overrides it if the organiser-approved form changes.
 
 ## Before public deployment
 
-- Registration closes 4 November 2026, 23:59 IST (confirmed); the countdown runs to it.
-- Test admin auth once the Supabase project and `ADMIN_EMAILS` are set in the host.
-- Add a proper database schema and admin CRUD actions before calling the admin panel complete.
+- Confirm production migrations are applied and match local migration history.
+- Verify email confirmation, password reset redirects, and the actual email delivery rate limits.
+- Test signup, registration, CV access, admin role boundaries, CSV import, and audit logging using test accounts and test data.
+- Keep `SUPABASE_SERVICE_ROLE_KEY` in the server environment only.
 
 ## Important
 

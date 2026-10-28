@@ -1,6 +1,12 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  // The Open Graph image reads its bundled font files via fs.readFile at
+  // runtime. Explicitly trace them into the Vercel function bundle so social
+  // previews do not depend on files being present in the build working tree.
+  outputFileTracingIncludes: {
+    '/opengraph-image': ['./assets/fonts/*.ttf'],
+  },
   images: {
     // Static pre-built sizes (scripts/build-image-sizes.mjs), never the
     // on-demand optimizer. These lists are the widths that exist on disk.

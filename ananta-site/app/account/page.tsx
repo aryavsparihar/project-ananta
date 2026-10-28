@@ -14,7 +14,6 @@ export default async function Account() {
   return (
     <section className={styles.wrap}>
       <div className={styles.wide}>
-        <p className={`meta ${styles.label}`}>ANANTA / Account</p>
         <h1 className={styles.title}>
           Your <em>desk.</em>
         </h1>

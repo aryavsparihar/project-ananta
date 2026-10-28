@@ -21,7 +21,6 @@ export default async function Rules() {
   return (
     <>
       <PageHead
-        label="Rules of the build"
         title={
           <>
             Make it yours.

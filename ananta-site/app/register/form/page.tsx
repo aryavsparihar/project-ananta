@@ -14,7 +14,6 @@ export default async function RegisterForm() {
   return (
     <section className={styles.wrap}>
       <div className={styles.wide}>
-        <p className={`meta ${styles.label}`}>ANANTA / Registration</p>
         <h1 className={styles.title}>
           Your <em>entry.</em>
         </h1>

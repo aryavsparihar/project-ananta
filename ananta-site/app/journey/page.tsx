@@ -21,7 +21,6 @@ export default async function Journey() {
   return (
     <>
       <PageHead
-        label="The journey"
         title={
           <>
             From first sketch

@@ -3,11 +3,6 @@
   border-bottom: 1px solid var(--c-rule);
 }
 
-.label {
-  color: var(--c-muted);
-  margin-bottom: var(--s-5);
-}
-
 .title {
   font-size: var(--t-h1);
   max-width: calc(16 * var(--display-ch));

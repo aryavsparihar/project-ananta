@@ -38,6 +38,13 @@ export const ADMIN_NAV: {
     blurb: 'Every entry from the site form and the Google Form: review, note, export.',
   },
   {
+    href: '/admin/accounts',
+    label: 'Accounts',
+    roles: ORGANISERS,
+    blurb:
+      'Who has signed in, who has registered, and which accounts still need attention.',
+  },
+  {
     href: '/admin/teams',
     label: 'Teams',
     roles: ORGANISERS,
@@ -55,6 +62,12 @@ export const ADMIN_NAV: {
     roles: ORGANISERS,
     blurb:
       'Dates, rounds, prizes, rules, the team page, the announcement bar and portal settings.',
+  },
+  {
+    href: '/admin/judging',
+    label: 'Judging',
+    roles: ['super_admin', 'judge'],
+    blurb: 'Score teams by round and track submitted judge scores.',
   },
   {
     href: '/admin/users',

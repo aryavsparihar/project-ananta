@@ -5,6 +5,10 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 import styles from './SiteNav.module.css';
 
+// The Team page can be restored without reverting this change:
+// set NEXT_PUBLIC_SHOW_TEAM_PAGE=true in Vercel and redeploy.
+const TEAM_PAGE_ENABLED = process.env.NEXT_PUBLIC_SHOW_TEAM_PAGE === 'true';
+
 const LINKS = [
   { href: '/about', label: 'The idea' },
   { href: '/journey', label: 'The journey' },
@@ -14,6 +18,8 @@ const LINKS = [
   { href: '/problems', label: 'Problems' },
   { href: '/contest', label: 'Contest' },
 ] as const;
+
+const VISIBLE_LINKS = LINKS.filter((link) => link.href !== '/team' || TEAM_PAGE_ENABLED);
 
 /**
  * Whether a Supabase session cookie is present. Only decides which link to
@@ -73,7 +79,7 @@ export function SiteNav() {
           className={`${styles.links} ${open ? styles.open : ''}`}
           aria-label="Main"
         >
-          {LINKS.map(({ href, label }) => {
+          {VISIBLE_LINKS.map(({ href, label }) => {
             const current = pathname === href;
             return (
               <Link

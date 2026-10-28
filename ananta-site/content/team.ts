@@ -28,6 +28,8 @@ export type Person = {
   photo?: string;
   linkedin?: string;
   github?: string;
+  /** Optional destination opened when the person's photo is clicked. */
+  easterEggUrl?: string;
   /** A personal site. Full URL, https included. */
   website?: string;
 };
@@ -80,14 +82,6 @@ export const TEAM: Person[] = [
     school: 'SoME',
   },
   {
-    name: 'Dr. Sunanda',
-    photo: 'sunanda',
-    role: 'Head of Department, SoCSE',
-    group: 'faculty',
-    club: 'smvdu',
-    school: 'SoCSE',
-  },
-  {
     name: 'Dr. Sonika Gupta',
     photo: 'sonika-gupta',
     role: 'Faculty Coordinator',
@@ -112,7 +106,7 @@ export const TEAM: Person[] = [
     school: 'SoECE',
   },
 
-  // --- Organising core (SANGAM) --------------------------------------------
+  // --- Organising core (SANGAM) ----------------------------------------------
   // Everyone here also belongs to a club, so the card carries that club, and
   // their club role is folded into this one. Each person appears once.
   {
@@ -187,9 +181,10 @@ export const TEAM: Person[] = [
     linkedin: 'https://www.linkedin.com/in/aryavsparihar/',
     github: 'https://github.com/aryavsparihar',
     website: 'https://aryavsparihar.in',
+    easterEggUrl: 'https://aryavsparihar.in/',
   },
 
-  // --- DevGrowth -----------------------------------------------------------
+  // --- DevGrowth --------------------------------------------------------------
   {
     name: 'Subham Prasad',
     role: 'Core Team',
@@ -255,7 +250,7 @@ export const TEAM: Person[] = [
     photo: 'armaan',
   },
 
-  // --- Code Club -----------------------------------------------------------
+  // --- Code Club --------------------------------------------------------------
   {
     name: 'Tejas Singh',
     role: 'Core Team',
@@ -306,20 +301,24 @@ export const TEAM: Person[] = [
 export const isPlaceholder = (p: Person) =>
   p.name.trim().toUpperCase().startsWith('TODO');
 
-export const peopleIn = (group: TeamGroupId) => TEAM.filter((p) => p.group === group);
+/** Return all members belonging to a group. */
+export const peopleIn = (group: TeamGroupId) =>
+  TEAM.filter((person) => person.group === group);
 
+/** Return all placeholder members. */
 export const placeholders = () => TEAM.filter(isPlaceholder);
 
 /** Honorifics are not part of anyone's initials. */
 const TITLES = /^(dr|prof|mr|ms|mrs)\.?$/i;
 
-/** "Asha Rani" -> "AR", "Dr. Asha Rani" -> "AR". Placeholders say so rather than showing "TN". */
+/** "Asha Rani" -> "AR", "Dr. Asha Rani" -> "AR". */
 export function initials(name: string): string {
   if (isPlaceholder({ name } as Person)) return 'TBC';
+
   return name
     .split(/\s+/)
-    .filter((w) => w && !TITLES.test(w))
+    .filter((word) => word && !TITLES.test(word))
     .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase() ?? '')
+    .map((word) => word[0]?.toUpperCase() ?? '')
     .join('');
 }

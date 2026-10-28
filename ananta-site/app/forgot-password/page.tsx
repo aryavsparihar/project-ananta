@@ -11,7 +11,6 @@ export default function ForgotPassword() {
   return (
     <section className={styles.wrap}>
       <div className={styles.card}>
-        <p className={`meta ${styles.label}`}>ANANTA / Participants</p>
         <h1 className={styles.title}>
           Forgot your <em>password?</em>
         </h1>

@@ -76,7 +76,6 @@ export default function AuditLog() {
     <section className={styles.page}>
       <header className={styles.head}>
         <div>
-          <p className={`meta ${styles.kicker}`}>ANANTA / Admin</p>
           <h1 className={styles.title}>
             Audit <em>log.</em>
           </h1>
@@ -94,6 +93,7 @@ export default function AuditLog() {
             <option value="contest_teams">Teams</option>
             <option value="contest_team_members">Team members</option>
             <option value="registrations">Registration decisions</option>
+            <option value="registration_imports">CSV imports</option>
             <option value="admin_users">Organiser roles</option>
           </select>
         </label>

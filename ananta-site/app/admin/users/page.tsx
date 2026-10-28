@@ -28,6 +28,9 @@ export default function UsersAdmin() {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<AdminRole>('event_admin');
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteRole, setInviteRole] = useState<AdminRole>('event_admin');
+  const [inviting, setInviting] = useState(false);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<{
     kind: 'success' | 'error';
@@ -77,18 +80,71 @@ export default function UsersAdmin() {
     }
   }
 
+  async function invite(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const target = inviteEmail.trim().toLowerCase();
+    const confirmMessage =
+      `Give ${target} full super-admin access, including organiser management? ` +
+      'Only invite someone you trust.';
+    if (inviteRole === 'super_admin' && !window.confirm(confirmMessage)) {
+      return;
+    }
+
+    setInviting(true);
+    setNotice(null);
+    try {
+      const response = await fetch('/api/admin/users/invite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: target, role: inviteRole }),
+      });
+      const result = (await response.json()) as {
+        error?: string;
+        email?: string;
+        role?: AdminRole;
+        invited?: boolean;
+        assignedExistingAccount?: boolean;
+        auditLogged?: boolean;
+        warning?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(result.error ?? 'Could not invite the organiser.');
+      }
+
+      const invitedEmail = result.email ?? target;
+      const invitedRole = result.role ?? inviteRole;
+      const invitationMessage = result.assignedExistingAccount
+        ? `${invitedEmail} already had an account; the ${ROLE_LABEL[invitedRole]} role has now been assigned.`
+        : `Invitation sent to ${invitedEmail} with the ${ROLE_LABEL[invitedRole]} role.`;
+
+      setInviteEmail('');
+      setNotice({
+        kind: result.auditLogged === false ? 'error' : 'success',
+        text: [invitationMessage, result.warning].filter(Boolean).join(' '),
+      });
+      await load();
+    } catch (error) {
+      setNotice({
+        kind: 'error',
+        text: error instanceof Error ? error.message : 'Could not invite the organiser.',
+      });
+    } finally {
+      setInviting(false);
+    }
+  }
+
   return (
     <section className={styles.page}>
       <header className={styles.head}>
         <div>
-          <p className={`meta ${styles.kicker}`}>ANANTA / Admin</p>
           <h1 className={styles.title}>
             Organisers<em>.</em>
           </h1>
           <p className={styles.intro}>
-            Who can sign in to this panel. The person needs an account first: they can
-            create one at /signup with a university email, or you can create it in the
-            Supabase dashboard. Deactivating keeps the record but locks them out.
+            Invite new organisers by email or assign a role to an existing Supabase
+            account. Access is enforced by the database, not just by this page.
+            Deactivating keeps the role record but removes access.
           </p>
         </div>
       </header>
@@ -102,8 +158,54 @@ export default function UsersAdmin() {
         </p>
       )}
 
+      <form onSubmit={invite} className={`${styles.card} ${styles.grid}`}>
+        <h2 className={styles.cardTitle}>Invite a new organiser</h2>
+        <p className={styles.muted}>
+          Sends a time-limited invitation email. The recipient sets a password before
+          signing in. The Supabase “Invite user” email template must link to /auth/confirm
+          with token_hash and type=invite; see the participant-portal setup guide.
+        </p>
+        <div className={`${styles.grid} ${styles.grid3}`}>
+          <label className={styles.field}>
+            <span>Organiser email</span>
+            <input
+              type="email"
+              value={inviteEmail}
+              onChange={(e) => setInviteEmail(e.target.value)}
+              required
+              maxLength={254}
+              autoComplete="email"
+            />
+          </label>
+          <label className={styles.field}>
+            <span>Role to grant</span>
+            <select
+              value={inviteRole}
+              onChange={(e) => setInviteRole(e.target.value as AdminRole)}
+            >
+              {ADMIN_ROLES.map((r) => (
+                <option key={r} value={r}>
+                  {ROLE_LABEL[r]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className={styles.field}>
+            <span>&nbsp;</span>
+            <button type="submit" className={styles.button} disabled={inviting || busy}>
+              {inviting ? 'Sending invitation…' : 'Send invitation'}
+            </button>
+          </div>
+        </div>
+        <p className={styles.muted}>{ROLE_HELP[inviteRole]}</p>
+      </form>
+
       <form onSubmit={add} className={`${styles.card} ${styles.grid}`}>
-        <h2 className={styles.cardTitle}>Add or change an organiser</h2>
+        <h2 className={styles.cardTitle}>Add or change an existing organiser</h2>
+        <p className={styles.muted}>
+          Use this for an account that already exists in Supabase Auth. New accounts
+          should be created with the invitation form above.
+        </p>
         <div className={`${styles.grid} ${styles.grid3}`}>
           <label className={styles.field}>
             <span>Account email</span>
@@ -164,14 +266,15 @@ export default function UsersAdmin() {
                           value={u.role}
                           disabled={busy || self}
                           aria-label={`Role for ${u.email}`}
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            const nextRole = e.target.value as AdminRole;
                             void setUser(
                               u.email,
-                              e.target.value as AdminRole,
+                              nextRole,
                               u.is_active,
-                              `${u.email} is now ${ROLE_LABEL[e.target.value as AdminRole]}.`,
-                            )
-                          }
+                              `${u.email} is now ${ROLE_LABEL[nextRole]}.`,
+                            );
+                          }}
                         >
                           {ADMIN_ROLES.map((r) => (
                             <option key={r} value={r}>
@@ -194,14 +297,15 @@ export default function UsersAdmin() {
                             type="button"
                             className={u.is_active ? styles.danger : styles.ghost}
                             disabled={busy}
-                            onClick={() =>
+                            onClick={() => {
+                              const action = u.is_active ? 'deactivated' : 'reactivated';
                               void setUser(
                                 u.email,
                                 u.role,
                                 !u.is_active,
-                                `${u.email} ${u.is_active ? 'deactivated' : 'reactivated'}.`,
-                              )
-                            }
+                                `${u.email} ${action}.`,
+                              );
+                            }}
                           >
                             {u.is_active ? 'Deactivate' : 'Reactivate'}
                           </button>

@@ -11,7 +11,6 @@ export default function ChangePassword() {
   return (
     <section className={styles.wrap}>
       <div className={styles.card}>
-        <p className={`meta ${styles.label}`}>ANANTA / Account</p>
         <h1 className={styles.title}>
           New <em>password.</em>
         </h1>

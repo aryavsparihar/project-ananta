@@ -15,7 +15,6 @@ export default async function Contest() {
   return (
     <>
       <PageHead
-        label="The contest"
         title={
           <>
             The teams

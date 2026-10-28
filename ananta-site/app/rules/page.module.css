@@ -72,18 +72,36 @@
 .prizeList {
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--c-rule-strong);
 }
 
 .prize {
-  padding: var(--s-5) var(--s-3) var(--s-5) 0;
+  min-width: 0;
+  padding: var(--s-5) 0;
   border-bottom: 1px solid var(--c-rule);
 }
 
 .prize + .prize {
-  padding-left: var(--s-3);
-  border-left: 1px solid var(--c-rule);
+  padding-left: 0;
+  border-left: 0;
+}
+
+/* Keep the three award amounts readable on phones; use two columns on tablets. */
+@media (min-width: 36rem) and (max-width: 47.999rem) {
+  .prizeList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .prize:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .prize:nth-child(even) {
+    padding-left: var(--s-3);
+    border-left: 1px solid var(--c-rule);
+  }
 }
 
 .prize dt {
@@ -122,6 +140,19 @@
   .rule {
     grid-template-columns: 4rem 1fr;
     gap: var(--s-6);
+  }
+
+  .prizeList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .prize {
+    padding: var(--s-5) var(--s-3) var(--s-5) 0;
+  }
+
+  .prize + .prize {
+    padding-left: var(--s-3);
+    border-left: 1px solid var(--c-rule);
   }
 
   .auditGrid {

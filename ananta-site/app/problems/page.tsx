@@ -15,7 +15,6 @@ export default async function Problems() {
   return (
     <>
       <PageHead
-        label="Problem statements"
         title={
           <>
             Pick a problem

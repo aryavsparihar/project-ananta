@@ -25,6 +25,10 @@ const ADMIN_ROUTES: {
     roles: ['super_admin', 'event_admin'],
   },
   {
+    path: '/admin/accounts',
+    roles: ['super_admin', 'event_admin'],
+  },
+  {
     path: '/admin/teams',
     roles: ['super_admin', 'event_admin'],
   },

@@ -32,7 +32,6 @@ export default async function Register() {
   return (
     <>
       <PageHead
-        label="Registration"
         title={
           <>
             Got a problem
@@ -129,8 +128,6 @@ export default async function Register() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-
-              <p className={`meta ${styles.teamLabel}`}>Every team has</p>
               <p className={styles.team}>{teamRules[0].body}</p>
               <p className={styles.team}>{teamRules[1].body}</p>
             </div>

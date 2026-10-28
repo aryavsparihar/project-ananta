@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Hero } from '@/components/Hero';
 import { Cutout } from '@/components/Cutout';
-import { Strip, CircuitRule, Eyebrow } from '@/components/Marks';
+import { Strip, CircuitRule } from '@/components/Marks';
 import styles from './page.module.css';
 import { getSiteContent } from '@/lib/site-content';
 
@@ -25,8 +25,6 @@ export default async function Home() {
       {/* ---------------------------------------------------- the point */}
       <section className="section" aria-labelledby="point-title">
         <div className="shell">
-          <Eyebrow>Why six weeks</Eyebrow>
-
           <div className={styles.pointGrid}>
             <h2 id="point-title" className={styles.pointTitle}>
               Twenty-four hours
@@ -133,7 +131,6 @@ export default async function Home() {
       {/* ------------------------------------------------ what came before */}
       <section className="section" aria-labelledby="before-title">
         <div className="shell">
-          <Eyebrow>What came before</Eyebrow>
           <h2 id="before-title" className={styles.beforeTitle}>
             The rooms were <em>already full.</em>
           </h2>
@@ -178,7 +175,6 @@ export default async function Home() {
       {/* ------------------------------------------------------ the ask */}
       <section className={`section ${styles.ask} on-dark`} aria-labelledby="ask-title">
         <div className="shell">
-          <p className="meta">The build starts here</p>
           <h2 id="ask-title" className={styles.askTitle}>
             Make something
             <br />

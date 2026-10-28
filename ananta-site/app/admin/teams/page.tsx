@@ -315,7 +315,6 @@ export default function TeamsAdmin() {
     <section className={styles.page}>
       <header className={styles.head}>
         <div>
-          <p className={`meta ${styles.kicker}`}>ANANTA / Admin</p>
           <h1 className={styles.title}>
             Teams<em>.</em>
           </h1>

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Cutout } from '@/components/Cutout';
 import { Stamp } from '@/components/Stamp';
-import { Strip, CircuitRule, Eyebrow } from '@/components/Marks';
+import { Strip, CircuitRule } from '@/components/Marks';
 import { PageHead } from '@/components/PageHead';
 import styles from './page.module.css';
 import { getSiteContent } from '@/lib/site-content';
@@ -23,7 +23,6 @@ export default async function About() {
   return (
     <>
       <PageHead
-        label="The idea"
         title={
           <>
             A hackathon that
@@ -38,7 +37,6 @@ export default async function About() {
         <div className="shell">
           <div className={styles.meaningGrid}>
             <div>
-              <Eyebrow>The name</Eyebrow>
               <h2 id="meaning-title" className={styles.devaTitle}>
                 <span className="deva">{event.devanagari}</span>
                 <span className={styles.meaningWord}>
@@ -97,7 +95,6 @@ export default async function About() {
             </div>
 
             <aside className={styles.aside}>
-              <p className="meta">What you leave with</p>
               <ul className={styles.leaveWith}>
                 <li>A deployed product with a public URL</li>
                 <li>A git history that shows how it was built</li>

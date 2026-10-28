@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHead } from '@/components/PageHead';
 import { Cutout } from '@/components/Cutout';
-import { CircuitRule, Eyebrow, Strip } from '@/components/Marks';
+import { CircuitRule, Strip } from '@/components/Marks';
 import styles from './page.module.css';
 import { EVENT } from '@/content/event';
 import { CLUBS, RECORDS } from '@/content/glimpses';
@@ -28,7 +28,6 @@ export default function Glimpses() {
   return (
     <>
       <PageHead
-        label="Glimpses"
         title={
           <>
             Before ANANTA,
@@ -42,7 +41,6 @@ export default function Glimpses() {
       {/* ------------------------------------------------------ the record */}
       <section className="section" aria-labelledby="record-title">
         <div className="shell">
-          <Eyebrow>So far</Eyebrow>
           <h2 id="record-title" className={styles.recordTitle}>
             The year, <em>in numbers.</em>
           </h2>

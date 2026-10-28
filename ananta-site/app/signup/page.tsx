@@ -17,7 +17,6 @@ export default async function Signup() {
   return (
     <section className={styles.wrap}>
       <div className={styles.card}>
-        <p className={`meta ${styles.label}`}>ANANTA / Participants</p>
         <h1 className={styles.title}>
           Create your <em>account.</em>
         </h1>

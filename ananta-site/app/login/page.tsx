@@ -14,7 +14,6 @@ export default function Login() {
   return (
     <section className={styles.wrap}>
       <div className={styles.card}>
-        <p className={`meta ${styles.label}`}>ANANTA / Participants</p>
         <h1 className={styles.title}>
           Sign <em>in.</em>
         </h1>

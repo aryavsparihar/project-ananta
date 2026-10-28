@@ -1,9 +1,16 @@
-import { createHash } from 'node:crypto';
 import { createServerClient } from '@supabase/ssr';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { parse } from 'csv-parse/sync';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import {
+  findHeader,
+  makeSourceId,
+  normaliseHeader,
+  parseGoogleTimestamp,
+  summariseImportProgress,
+  type CsvRow,
+} from '@/lib/registration-import';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -15,7 +22,6 @@ const BATCH_SIZE = 100;
 
 const IMPORT_ROLES = ['super_admin', 'event_admin'] as const;
 
-type CsvRow = Record<string, string>;
 type RegistrationInsert = {
   source: 'google_forms';
   source_response_id: string;
@@ -27,110 +33,70 @@ type RegistrationInsert = {
   form_response: CsvRow;
 };
 
-function normaliseHeader(value: string): string {
-  return value
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, '');
-}
-
-function findHeader(headers: string[], aliases: string[]): string | undefined {
-  const lookup = new Map(
-    headers.map((header) => [normaliseHeader(header), header] as const),
-  );
-
-  return aliases
-    .map(normaliseHeader)
-    .map((alias) => lookup.get(alias))
-    .find((header): header is string => Boolean(header));
-}
-
-/**
- * Parse ISO timestamps as supplied. Parse slash/dash dates using India's
- * day-first convention when ambiguous and IST when no timezone is present.
- */
-function parseGoogleTimestamp(value?: string): string | null {
-  const text = value?.trim();
-  if (!text) return null;
-
-  if (/^\d{4}-\d{2}-\d{2}(?:T|$)/.test(text)) {
-    const milliseconds = Date.parse(text);
-    return Number.isNaN(milliseconds) ? null : new Date(milliseconds).toISOString();
-  }
-
-  const match = text.match(
-    /^(\d{1,2})[/-](\d{1,2})[/-](\d{4})(?:,?\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?)?$/i,
-  );
-  if (!match) return null;
-
-  const first = Number(match[1]);
-  const second = Number(match[2]);
-  const year = Number(match[3]);
-  let day = first;
-  let month = second;
-
-  // If only one field can be a month, use that to disambiguate.
-  if (first > 12 && second <= 12) {
-    day = first;
-    month = second;
-  } else if (second > 12 && first <= 12) {
-    month = first;
-    day = second;
-  } else if (first > 12 || second > 12) {
-    return null;
-  }
-  // Otherwise interpret ambiguous dates as DD/MM/YYYY for India.
-
-  let hour = Number(match[4] ?? 0);
-  const minute = Number(match[5] ?? 0);
-  const secondPart = Number(match[6] ?? 0);
-  const meridiem = match[7]?.toUpperCase();
-
-  if (meridiem) {
-    if (hour < 1 || hour > 12) return null;
-    if (meridiem === 'PM' && hour < 12) hour += 12;
-    if (meridiem === 'AM' && hour === 12) hour = 0;
-  } else if (hour > 23) {
-    return null;
-  }
-
-  if (month < 1 || month > 12 || day < 1 || day > 31 || minute > 59 || secondPart > 59) {
-    return null;
-  }
-
-  // Create a UTC wall-clock representation first, then validate every part
-  // so dates like 31/02/2026 cannot silently roll into March.
-  const wallClock = new Date(Date.UTC(year, month - 1, day, hour, minute, secondPart));
-
-  if (
-    wallClock.getUTCFullYear() !== year ||
-    wallClock.getUTCMonth() !== month - 1 ||
-    wallClock.getUTCDate() !== day ||
-    wallClock.getUTCHours() !== hour ||
-    wallClock.getUTCMinutes() !== minute ||
-    wallClock.getUTCSeconds() !== secondPart
-  ) {
-    return null;
-  }
-
-  // Google Forms timestamps are interpreted as Indian Standard Time when
-  // the exported value has no explicit timezone.
-  const indiaOffsetMinutes = 330;
-  return new Date(wallClock.getTime() - indiaOffsetMinutes * 60_000).toISOString();
-}
-
-/** Stable across CSV column ordering and repeat exports with the same values. */
-function makeSourceId(row: CsvRow): string {
-  const canonical = Object.entries(row)
-    .map(([key, value]) => [normaliseHeader(key), value.trim()] as const)
-    .sort(([a], [b]) => a.localeCompare(b));
-
-  return createHash('sha256').update(JSON.stringify(canonical)).digest('hex');
-}
-
 function jsonError(message: string, status: number) {
   return NextResponse.json({ error: message }, { status });
+}
+
+type ImportAuditSummary = {
+  outcome: 'complete' | 'partial_failure';
+  rows_received: number;
+  unique_rows: number;
+  imported: number;
+  duplicates_skipped: number;
+  rows_not_imported: number;
+  error_code?: string;
+};
+
+type AuditLogInsert = {
+  actor_id: string;
+  actor_email: string | null;
+  table_name: 'registration_imports';
+  row_key: string;
+  action: 'INSERT';
+  old_data: null;
+  new_data: Record<string, unknown>;
+};
+
+type AuditLogWriter = {
+  from: (table: 'audit_log') => {
+    insert: (
+      values: AuditLogInsert,
+    ) => PromiseLike<{ error: { message: string } | null }>;
+  };
+};
+
+/**
+ * Record aggregate import activity without copying participant data into the
+ * audit log. The privileged client is created only after the caller's role
+ * has been verified by the route.
+ */
+async function writeImportAudit(
+  adminClient: unknown,
+  actor: { id: string; email?: string },
+  summary: ImportAuditSummary,
+): Promise<boolean> {
+  // Supabase's client has no generated database schema types in this repo.
+  // Narrow only this insert to the columns we intentionally write.
+  const auditClient = adminClient as unknown as AuditLogWriter;
+  const { error } = await auditClient.from('audit_log').insert({
+    actor_id: actor.id,
+    actor_email: actor.email ?? null,
+    table_name: 'registration_imports',
+    row_key: new Date().toISOString(),
+    action: 'INSERT',
+    old_data: null,
+    new_data: {
+      source: 'google_forms_csv',
+      ...summary,
+    },
+  });
+
+  if (error) {
+    console.error('Could not write registration import audit entry:', error.message);
+    return false;
+  }
+
+  return true;
 }
 
 export async function POST(request: Request) {
@@ -416,12 +382,34 @@ export async function POST(request: Request) {
         imported,
       });
 
+      const progress = summariseImportProgress(
+        records.length,
+        uniqueRows.length,
+        existingIds.size,
+        imported,
+        newRows.length,
+      );
+      const auditLogged = await writeImportAudit(adminClient, user, {
+        outcome: 'partial_failure',
+        rows_received: records.length,
+        unique_rows: uniqueRows.length,
+        imported,
+        duplicates_skipped: progress.duplicatesSkipped,
+        rows_not_imported: progress.rowsNotImported,
+        error_code: error.code,
+      });
+
       return NextResponse.json(
         {
           error:
             `Import stopped after ${imported} rows. ` +
             'Review the database error in server logs, then retry the same CSV.',
           imported,
+          rowsReceived: records.length,
+          uniqueRows: uniqueRows.length,
+          duplicatesSkipped: progress.duplicatesSkipped,
+          rowsNotImported: progress.rowsNotImported,
+          auditLogged,
         },
         { status: 500 },
       );
@@ -430,10 +418,38 @@ export async function POST(request: Request) {
     imported += batch.length;
   }
 
-  return NextResponse.json({
+  const progress = summariseImportProgress(
+    records.length,
+    uniqueRows.length,
+    existingIds.size,
+    imported,
+    newRows.length,
+  );
+  const result = {
     rowsReceived: records.length,
     uniqueRows: uniqueRows.length,
     imported,
-    duplicatesSkipped: records.length - imported,
+    duplicatesSkipped: progress.duplicatesSkipped,
+    rowsNotImported: progress.rowsNotImported,
+  };
+
+  const auditLogged = await writeImportAudit(adminClient, user, {
+    outcome: 'complete',
+    rows_received: result.rowsReceived,
+    unique_rows: result.uniqueRows,
+    imported: result.imported,
+    duplicates_skipped: result.duplicatesSkipped,
+    rows_not_imported: result.rowsNotImported,
+  });
+
+  return NextResponse.json({
+    ...result,
+    auditLogged,
+    ...(auditLogged
+      ? {}
+      : {
+          warning:
+            'The import succeeded, but its audit entry could not be recorded. Contact a super admin and do not re-import solely to address this warning.',
+        }),
   });
 }

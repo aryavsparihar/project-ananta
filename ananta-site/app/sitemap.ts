@@ -13,7 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/glimpses', priority: 0.7 },
     { path: '/rules', priority: 0.7 },
     { path: '/register', priority: 0.9 },
-    { path: '/team', priority: 0.6 },
+    ...(process.env.NEXT_PUBLIC_SHOW_TEAM_PAGE === 'true'
+      ? [{ path: '/team', priority: 0.6 }]
+      : []),
     { path: '/signup', priority: 0.6 },
   ];
 

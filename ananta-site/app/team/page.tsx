@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { PageHead } from '@/components/PageHead';
 import { TeamCard } from '@/components/TeamCard';
 import { CircuitRule } from '@/components/Marks';
@@ -7,7 +8,17 @@ import { isPlaceholder } from '@/content/team';
 import { presentedBy } from '@/lib/content-sections';
 import { getSiteContent } from '@/lib/site-content';
 
+// Keep this page in source control; set NEXT_PUBLIC_SHOW_TEAM_PAGE=true to restore it.
+const TEAM_PAGE_ENABLED = process.env.NEXT_PUBLIC_SHOW_TEAM_PAGE === 'true';
+
 export async function generateMetadata(): Promise<Metadata> {
+  if (!TEAM_PAGE_ENABLED) {
+    return {
+      title: 'Page not found',
+      robots: { index: false, follow: true },
+    };
+  }
+
   const { event } = await getSiteContent();
   return {
     title: 'Team',
@@ -25,6 +36,8 @@ const TILTS = [-2.2, 1.6, -1.1, 2.4, -1.8, 1.2, -2.6, 0.9];
 const tilt = (i: number) => TILTS[i % TILTS.length];
 
 export default async function Team() {
+  if (!TEAM_PAGE_ENABLED) notFound();
+
   const { event, team } = await getSiteContent();
   const groups = team.groups;
   const peopleIn = (id: string) => team.people.filter((p) => p.group === id);
@@ -34,7 +47,6 @@ export default async function Team() {
   return (
     <>
       <PageHead
-        label="The team"
         title={
           <>
             The people

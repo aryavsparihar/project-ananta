@@ -323,18 +323,34 @@ export default function RegistrationsPage() {
       const result = (await response.json()) as {
         error?: string;
         imported?: number;
-        duplicates?: number;
+        duplicatesSkipped?: number;
+        rowsNotImported?: number;
+        auditLogged?: boolean;
+        warning?: string;
       };
 
       if (!response.ok) {
-        throw new Error(result.error ?? 'Registration import failed.');
+        const partialProgress =
+          typeof result.imported === 'number'
+            ? ` ${result.imported} rows were imported before the failure. ` +
+              `${result.duplicatesSkipped ?? 0} duplicates were skipped; ` +
+              `${result.rowsNotImported ?? 0} new rows remain. Retrying the same CSV is safe.`
+            : '';
+        throw new Error(
+          `${result.error ?? 'Registration import failed.'}${partialProgress}`,
+        );
       }
 
       setNotice({
-        kind: 'success',
-        text: `Import complete: ${result.imported ?? 0} new rows added; ${
-          result.duplicates ?? 0
-        } duplicate rows skipped.`,
+        kind: result.auditLogged === false ? 'error' : 'success',
+        text: [
+          `Import complete: ${result.imported ?? 0} new rows added; ${
+            result.duplicatesSkipped ?? 0
+          } duplicate rows skipped.`,
+          result.warning,
+        ]
+          .filter(Boolean)
+          .join(' '),
       });
 
       await loadRegistrations();
@@ -353,7 +369,6 @@ export default function RegistrationsPage() {
       <div className={styles.container}>
         <header className={styles.header}>
           <div>
-            <p className={styles.kicker}>ANANTA / Admin</p>
             <h1>
               Registrations<span>.</span>
             </h1>

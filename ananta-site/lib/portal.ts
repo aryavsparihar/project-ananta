@@ -46,6 +46,20 @@ export const CV_TYPES = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ];
 
+/** Returns a form-safe error message for unsupported or unusable CV uploads. */
+export function validateCvUpload(file: { type: string; size: number }): string | null {
+  if (!CV_TYPES.includes(file.type)) {
+    return 'Upload the CV as a PDF or Word document.';
+  }
+  if (file.size <= 0) {
+    return 'Choose a non-empty CV file.';
+  }
+  if (file.size > CV_MAX_BYTES) {
+    return 'Keep the CV under 5 MB.';
+  }
+  return null;
+}
+
 export type RegistrationForm = {
   full_name: string;
   entry_number: string;

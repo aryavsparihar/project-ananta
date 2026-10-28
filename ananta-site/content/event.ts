@@ -249,4 +249,4 @@ export const PORTAL = {
 };
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://project-ananta-zvut.vercel.app';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://project-ananta.vercel.app';

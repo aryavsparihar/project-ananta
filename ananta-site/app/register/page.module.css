@@ -133,11 +133,6 @@
   background: var(--c-saffron-deep);
 }
 
-.teamLabel {
-  color: var(--c-muted);
-  margin-bottom: var(--s-2);
-}
-
 .team {
   max-width: calc(48 * var(--serif-ch));
   color: var(--c-muted);
